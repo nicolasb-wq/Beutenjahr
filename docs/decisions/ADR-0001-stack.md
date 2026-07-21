@@ -8,7 +8,7 @@
 
 | Baustein | Wahl | Konfidenz |
 |---|---|---|
-| Engine | **Godot 4.5** (stable-Linie), Renderer „mobile" | Glaube ich (siehe unten) |
+| Engine | **Godot 4.5** (stable-Linie), Renderer „mobile" | Bestätigt (CI: 4.5-stable geladen, Projekt importiert) |
 | Sprache | **GDScript**, keine C#-/.NET-Abhängigkeit | Bestätigt (Serien-Standard) |
 | Test-Ausführung | headless über `godot --headless` | Bestätigt |
 | Test-Harness | **eigener minimaler GDScript-Runner** (`tests/`) statt GUT/gdUnit4 | bewusste Abweichung, s. u. |

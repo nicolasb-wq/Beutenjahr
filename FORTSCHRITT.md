@@ -22,8 +22,11 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 - **AP 0.3 (Content-Schema v1)** ✅ — `docs/content-schema.md`, `content/schema/*`, 13 Beispiel-Objekte, `tools/validate_content.py` (grün + Negativtest bestätigt Greifen).
 - **CI-Grundgerüst** ✅ — `.github/workflows/ci.yml`: Job `lint-content` (gdlint/gdformat/Content-Validierung, lokal verifiziert) + Job `godot` (Godot 4.5 headless, Projekt-Import; Test-Runner-Aufruf ab Phase 1 aktiv).
 
+### CI-Status: BEIDE JOBS GRÜN ✅ (Run #1, Commit fcb5d29)
+- `lint-content` grün (gdlint, gdformat, Content-Validierung).
+- `godot` grün: **Godot 4.5-stable ließ sich laden** (bestätigt die Versionsannahme aus ADR-0001, war zuvor nur „Glaube ich") und das Projekt importierte ohne Script-/Ladefehler → project.godot, Main.tscn/Main.gd sind gültiges Godot 4.5.
+
 ### Offen / als Nächstes
-- **CI-Lauf beobachten:** Job `godot` ist in dieser Cloud-Umgebung NICHT lokal verifizierbar (kein Godot, Download geblockt) — erst der echte GitHub-Actions-Lauf bestätigt ihn. Job `lint-content` ist lokal grün.
 - Phase 1, AP 1.1 (`core/`-Kernzustand & Zug-Loop) — siehe `NEXT.md`.
 
 ### Risiken
