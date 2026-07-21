@@ -59,5 +59,5 @@ func assert_ne(actual: Variant, expected: Variant, msg: String = "") -> void:
 
 
 func _suite_name() -> String:
-	var s := get_script()
+	var s: Script = get_script()
 	return s.resource_path.get_file() if s != null else "TestCase"

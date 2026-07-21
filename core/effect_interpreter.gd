@@ -126,7 +126,7 @@ func _deal_damage(target: String, value: int, colony_source: bool) -> void:
 		if not colony_source:
 			var benommen := int(enc.threat.statuses.get("benommen", 0)) if enc.threat != null else 0
 			dmg = max(0, dmg - benommen)
-			var absorbed := min(enc.guards, dmg)
+			var absorbed: int = min(enc.guards, dmg)
 			enc.guards -= absorbed
 			enc.strength = max(0, enc.strength - (dmg - absorbed))
 		else:
@@ -141,7 +141,7 @@ func _discard(effect: Dictionary, value: int) -> void:
 			enc.discard_pile.append(card)
 		enc.hand.clear()
 		return
-	var n := min(value, enc.hand.size())
+	var n: int = min(value, enc.hand.size())
 	for _i in n:
 		var idx := rng.randi_range("deck", 0, enc.hand.size() - 1)
 		enc.discard_pile.append(enc.hand[idx])
@@ -151,7 +151,7 @@ func _discard(effect: Dictionary, value: int) -> void:
 func _convert(effect: Dictionary, value: int) -> void:
 	var from := String(effect.get("from", ""))
 	var to := String(effect.get("to", ""))
-	var ratio := max(1, int(effect.get("ratio", 1)))
+	var ratio: int = max(1, int(effect.get("ratio", 1)))
 	var available := _resource_get(from)
 	var amount: int = available if value <= 0 else min(value, available)
 	_resource_add(from, -amount)

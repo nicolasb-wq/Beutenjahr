@@ -31,3 +31,10 @@ locale/fallback="de"
 
 renderer/rendering_method="mobile"
 renderer/rendering_method.mobile="mobile"
+
+[debug]
+
+; Godot 4.5 behandelt INFERRED_DECLARATION (":= aus Variant") als Fehler.
+; Wir typisieren im Kern ohnehin explizit; diese Einstellung senkt die Warnung
+; auf "Warn", damit ein uebersehener Fall nicht die ganze CI blockiert.
+gdscript/warnings/inferred_declaration=1

@@ -50,7 +50,7 @@ func start_turn() -> void:
 	_varroa_tick()
 	_status_start_of_turn()
 	_fire_varroa_threshold_relics()
-	var need := max(0, Balance.HAND_SIZE - enc.hand.size())
+	var need: int = max(0, Balance.HAND_SIZE - enc.hand.size())
 	enc.draw(need, rng, game_log)
 	_reveal_intent()
 	game_log.add(_status_line())
