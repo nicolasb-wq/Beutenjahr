@@ -32,7 +32,9 @@ func _run_all() -> int:
 		total_tests += int(res["count"])
 		var fails: Array = res["failures"]
 		var status := "OK   " if fails.is_empty() else "FEHLER"
-		print("[%s] %-24s %2d Tests, %d Fehler" % [status, res["suite"], res["count"], fails.size()])
+		print(
+			"[%s] %-24s %2d Tests, %d Fehler" % [status, res["suite"], res["count"], fails.size()]
+		)
 		all_failures.append_array(fails)
 	print("----------------------------------------------")
 	if all_failures.is_empty():
