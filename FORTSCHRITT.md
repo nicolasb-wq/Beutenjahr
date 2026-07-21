@@ -41,6 +41,23 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 
 ---
 
+## 2026-07-21 — Phase 1 AP 1.2 (Effekt-Interpreter fertig) ✅ CI-verifiziert
+
+### Erledigt
+- **`retain_hand`** echt: Zug-Flag, Hand wird am Zugende nicht abgelegt (Reset zu Zugbeginn).
+- **`scry`** echt: Kern enthüllt Top-N in `EncounterState.scry_reveal` (Seam; Umsortier-/Ablage-Entscheidung = UI Phase 5 / Autoplayer Phase 4).
+- **Interpreter-Testabdeckung** auf alle 25 Ops + Kombinationen (`double_next`×`scale`, `benommen` reduziert Bedrohungsschaden). Suite gesplittet (`test_interpreter` + `test_interpreter_ops`) wegen gdlint-20-Methoden-Limit.
+- **Upgrade-Mechanik** getestet (`sammelflug` +6→+9, `sammelmotor` Kosten 2→1).
+- **`content-schema.md §6`** Entscheidungen festgezurrt (discard-Default, `double_next`×`scale`, `retain_hand`, `scry`).
+
+### CI-Status: BEIDE JOBS GRÜN ✅ (Run 135d9a6) — **ALLE 49 TESTS GRUEN**
+(test_rng 4 · test_interpreter 18 · test_interpreter_ops 14 · test_turn_engine 11 · test_determinism 2)
+
+### Als Nächstes
+- AP 1.3: Bedrohungs-KI (Intent-Phasen/Eskalation echt), **Varroa-Schwellen-Verschlechterung** (Signature-Mechanik), Sieg/Niederlage/Flucht mit Belohnungswahl, Autoplayer v0 (100 Begegnungen crashfrei).
+
+---
+
 ## 2026-07-21 — Phase 1 AP 1.1 (Kernzustand & Zug-Loop) ✅ CI-verifiziert
 
 ### Erledigt

@@ -2,18 +2,20 @@
 
 ## Jetzt
 
-**Phase 1, AP 1.2 — Effekt-Interpreter abschließen (Testabdeckung + Feinschliff).**
+**Phase 1, AP 1.3 — Bedrohungs-KI, Varroa-Eskalation & Autoplayer v0.**
 
-Der Interpreter existiert bereits (alle 25 Primitive, `core/effect_interpreter.gd`). Offen laut Blueprint AP 1.2:
-1. **Testabdeckung auf alle 25 Ops** heben (aktuell 18 Interpreter-Tests) + 5 Kombinations-/Reihenfolge-Tests (z. B. `double_next` vor `scale`, `benommen` reduziert Bedrohungsschaden, `dampen_varroa` über mehrere Ticks). Ziel: ≥25 Interpreter-Tests.
-2. **`retain_hand` und `scry` echt implementieren** (in AP 1.1 als v1-Platzhalter markiert) — inkl. Tests.
-3. **Upgrade-Mechanik testen:** „geimkert"-Variante (`upgrade`) verändert Kosten/Effekte korrekt (z. B. `sammelflug` +6 → +9).
-4. Offene Punkte aus `docs/content-schema.md §6` festzurren (discard-`select`-Regel, `double_next`×`scale`-Vertrag).
+Konkret (Blueprint AP 1.3):
+1. **Intent-System vervollständigen:** echte Phasenwechsel (z. B. Wespen ab Runde 4 aggressiver) — `ThreatState.phase` steuern über `escalation` (`per_turn`/`per_phase`); phasengated Intents (`phase`-Feld) werden dann eligible.
+2. **Varroa-Eskalationsmodell — die Signature-Mechanik (hier Zeit investieren):** Schwellen verschlechtern Kartenwirkungen. Modell definieren (z. B. ab Schwelle X: −1 auf ausgehende Werte oder Strafschaden je Zug), in ADR festhalten, testen.
+3. **Begegnungsabschluss:** Sieg/Niederlage/**Flucht** inkl. Belohnungswahl (1 aus 3 Karten, seeded — Genre-Standard).
+4. **Autoplayer v0:** spielt zufällig legal; übersteht **100 Begegnungen ohne Crash** (Grundlage für den Balancing-Bot in Phase 4).
 
-**DoD:** ≥25 Interpreter-Tests grün in CI; jedes Primitiv mindestens einmal getestet; Upgrade-Pfad getestet.
+**DoD (Blueprint):** Komplette Begegnung headless durchspielbar; Autoplayer übersteht 100 Begegnungen ohne Crash. Tests grün in CI.
+
+**Stolperfalle (Blueprint):** Eskalation linear statt spürbar — Varroa muss sich wie eine tickende Uhr anfühlen; lieber zu böse starten und runterdrehen.
 
 ## Danach
 
-- AP 1.3: Bedrohungs-KI (Intent-Phasen/Eskalation echt), Varroa-**Schwellen**-Verschlechterung (Signature-Mechanik!), Sieg/Niederlage/Flucht mit Belohnungswahl, Autoplayer v0 (100 Begegnungen crashfrei).
+- Phase 1 abgeschlossen → **Phase 2 (SPASS-GATE)**: Papier-Prototyp + Greybox. Achtung: Greybox braucht eine Minimal-UI (erste Node-Schicht über dem Kern) und ist ein **Mensch-Gate** (≥10 Tester) — vorbereiten, nicht selbst durchführen.
 
-> CI ist die maßgebliche Verifikation (Godot lokal nicht ausführbar). Vor jedem Push: `gdlint`/`gdformat` + `validate_content.py` lokal grün.
+> CI ist die maßgebliche Verifikation. Vor jedem Push: `gdlint`/`gdformat`/`validate_content.py` lokal grün.
