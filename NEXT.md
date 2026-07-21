@@ -2,21 +2,18 @@
 
 ## Jetzt
 
-**Phase 1, AP 1.1 — Kernzustand & Zug-Loop (`core/`, headless).**
+**Phase 1, AP 1.2 — Effekt-Interpreter abschließen (Testabdeckung + Feinschliff).**
 
-Konkret:
-1. `core/`-Klassen: `RunState`, `EncounterState` (Volksstärke, Vorräte, Varroalast, Energie, Wächterinnen, Hand/Zieh-/Ablagestapel), `ThreatState`, `RngService` (getrennte, seeded Ströme: `deck`, `threat`, `event`, `map`).
-2. Zug-Loop als reine Zustandsmaschine: Zugbeginn (Energie auffrischen, ziehen, Varroa-Tick, Intent würfeln) → Spieleraktionen → Zugende → Bedrohungsaktion.
-3. **Alle Regeln als Doku-Kommentar VOR dem Code** — Reihenfolge-Fragen (z. B. „wirkt Relikt vor oder nach Varroa-Tick?") jetzt festlegen, nicht im Bugfix. Auch offene Punkte aus `docs/content-schema.md §6`.
-4. Minimaler Headless-Test-Runner (`tests/run_tests.gd` + `tests/test_case.gd`) — dann greift der zweite CI-Job.
+Der Interpreter existiert bereits (alle 25 Primitive, `core/effect_interpreter.gd`). Offen laut Blueprint AP 1.2:
+1. **Testabdeckung auf alle 25 Ops** heben (aktuell 18 Interpreter-Tests) + 5 Kombinations-/Reihenfolge-Tests (z. B. `double_next` vor `scale`, `benommen` reduziert Bedrohungsschaden, `dampen_varroa` über mehrere Ticks). Ziel: ≥25 Interpreter-Tests.
+2. **`retain_hand` und `scry` echt implementieren** (in AP 1.1 als v1-Platzhalter markiert) — inkl. Tests.
+3. **Upgrade-Mechanik testen:** „geimkert"-Variante (`upgrade`) verändert Kosten/Effekte korrekt (z. B. `sammelflug` +6 → +9).
+4. Offene Punkte aus `docs/content-schema.md §6` festzurren (discard-`select`-Regel, `double_next`×`scale`-Vertrag).
 
-**DoD:** Konsolen-Skript spielt einen gescripteten Zug mit Textausgabe; Doppellauf mit gleichem Seed = bitidentisch (Determinismus). Erste Unit-Tests grün in CI.
-
-**Stolperfalle (Blueprint):** RNG-Ströme mischen — dann verschiebt jede neue Karte im Pool sämtliche Replays. Strikt getrennte Ströme.
+**DoD:** ≥25 Interpreter-Tests grün in CI; jedes Primitiv mindestens einmal getestet; Upgrade-Pfad getestet.
 
 ## Danach
 
-- AP 1.2 Effekt-Interpreter (die 25 Primitive aus dem Schema) + ≥25 Unit-Tests.
-- AP 1.3 Bedrohungs-KI, Varroa-Eskalation, Autoplayer v0.
+- AP 1.3: Bedrohungs-KI (Intent-Phasen/Eskalation echt), Varroa-**Schwellen**-Verschlechterung (Signature-Mechanik!), Sieg/Niederlage/Flucht mit Belohnungswahl, Autoplayer v0 (100 Begegnungen crashfrei).
 
-> Voraussetzung: erst prüfen, dass die Phase-0-CI grün ist (beide Jobs).
+> CI ist die maßgebliche Verifikation (Godot lokal nicht ausführbar). Vor jedem Push: `gdlint`/`gdformat` + `validate_content.py` lokal grün.

@@ -41,10 +41,30 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 
 ---
 
+## 2026-07-21 — Phase 1 AP 1.1 (Kernzustand & Zug-Loop) ✅ CI-verifiziert
+
+### Erledigt
+- **ADR-0003:** Zug-Loop-Reihenfolge, Schaden-/Varroa-Regeln, provisorische Balance fixiert (VOR dem Code).
+- **`core/` Sim-Kern** (strikt headless, Integer, seeded RNG): `RngService` (Ströme deck/threat/event/map, Fisher-Yates, weighted_pick), `Balance`, `CardLib`, `GameLog`, `ContentDB`, `EncounterState`/`ThreatState`/`RunState` (mit Snapshot), `EffectInterpreter` (alle 25 Primitive + scale/condition), `TurnEngine` (Zustandsmaschine nach ADR-0003), `SimUtil`.
+- **Tests (eigener Headless-Runner):** **32 Tests grün in CI** — RNG-Determinismus/Unabhängigkeit, 18 Interpreter-Primitive, Zug-Loop/Sieg/Niederlage/Relikt, **Determinismus-Doppellauf bitidentisch (DoD AP 1.1)**.
+- **`tools/demo.gd`:** Konsolen-Demo (gescripteter Zug mit Textausgabe).
+
+### CI-Status: BEIDE JOBS GRÜN ✅ (Run 87cd5a8)
+- `godot`-Job führt `run_tests.gd` real aus: „ALLE 32 TESTS GRUEN". Godot v4.5.stable bestätigt.
+
+### Gelöste Stolpersteine (dokumentiert fürs Lernen)
+- **SceneTree-Runner hing headless:** `quit()` allein beendet den MainLoop nicht zuverlässig → `_process()` gibt `true` zurück (Backstop); CI zusätzlich mit `--quit-after` + Sentinel-Prüfung + `concurrency`/Timeouts abgesichert.
+- **Godot 4.5 wertet `INFERRED_DECLARATION` (`:=` aus Variant, z. B. `min()`/`max()`) als Fehler** → 5 Stellen explizit typisiert; `project.godot` senkt die Warnung defensiv auf „Warn". (Lokal via gdlint NICHT fangbar — CI ist hier der Wächter.)
+
+### Als Nächstes
+- AP 1.2 (Interpreter-Testabdeckung auf alle 25 Ops erweitern, Upgrade-Mechanik-Tests, `retain_hand`/`scry` echt implementieren) → siehe `NEXT.md`.
+
+---
+
 ## Phasen-Checkliste (Blueprint Abschnitt 9)
 
-- [ ] **Phase 0** — Setup, Marktcheck, Schema  ← *in Arbeit*
-- [ ] Phase 1 — Karten-Engine + Effekt-Interpreter (headless)
+- [x] **Phase 0** — Setup, Marktcheck, Schema ✅ (CI grün)
+- [ ] **Phase 1** — Karten-Engine + Effekt-Interpreter (headless)  ← *AP 1.1 fertig, AP 1.2/1.3 offen*
 - [ ] Phase 2 — Papier-Prototyp + Greybox (SPASS-GATE)
 - [ ] Phase 3 — Run-Struktur
 - [ ] Phase 4 — Content & Balancing (137 Objekte)
