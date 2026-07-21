@@ -1,0 +1,33 @@
+; Engine configuration file for "Beutenjahr".
+; Godot 4.5-stable target (siehe docs/decisions/ADR-0001-stack.md).
+; config_version=5 = Godot 4.x.
+
+config_version=5
+
+[application]
+
+config/name="Beutenjahr"
+config/description="Imkerei-Deckbuilder-Roguelite: ein Trachtjahr in drei Akten."
+run/main_scene="res://ui/Main.tscn"
+config/features=PackedStringArray("4.5", "GDScript", "Mobile")
+config/icon="res://icon.svg"
+
+[display]
+
+; Einhand-Hochformat (Portrait) laut Blueprint Abschnitt 4 / AP 5.1.
+window/size/viewport_width=1080
+window/size/viewport_height=1920
+window/handheld/orientation=1
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[internationalization]
+
+; DE/EN ueber Keys ab Tag 1 (Serien-Handbuch §1.7). Translations werden
+; ab Phase 5 hier registriert.
+locale/fallback="de"
+
+[rendering]
+
+renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="mobile"

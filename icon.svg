@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Platzhalter-Ikon (Wabe). Finaler Look folgt in Phase 6 (AP 6.1). -->
+  <rect width="128" height="128" rx="24" fill="#2b2b2b"/>
+  <polygon points="64,20 100,42 100,86 64,108 28,86 28,42"
+           fill="none" stroke="#f5b301" stroke-width="8" stroke-linejoin="round"/>
+  <polygon points="64,44 82,55 82,77 64,88 46,77 46,55"
+           fill="#f5b301"/>
+</svg>
