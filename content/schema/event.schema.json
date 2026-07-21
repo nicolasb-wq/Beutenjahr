@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "event.schema.json",
+  "title": "Beutenjahr Ereignis",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name_key", "text_key", "act", "options"],
+  "properties": {
+    "id": { "$ref": "defs.schema.json#/$defs/id" },
+    "name_key": { "$ref": "defs.schema.json#/$defs/key" },
+    "text_key": { "$ref": "defs.schema.json#/$defs/key" },
+    "act": { "$ref": "defs.schema.json#/$defs/act" },
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label_key", "effects"],
+        "properties": {
+          "label_key": { "$ref": "defs.schema.json#/$defs/key" },
+          "effects": { "$ref": "defs.schema.json#/$defs/effect_list" }
+        }
+      }
+    }
+  }
+}

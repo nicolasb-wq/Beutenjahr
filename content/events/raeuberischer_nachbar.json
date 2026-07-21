@@ -1,0 +1,15 @@
+{
+  "id": "raeuberischer_nachbar",
+  "name_key": "event.raeuberischer_nachbar.name",
+  "text_key": "event.raeuberischer_nachbar.text",
+  "act": 3,
+  "options": [
+    { "label_key": "event.raeuberischer_nachbar.opt_fluglochkeil",
+      "effects": [ { "op": "spend_stores", "value": 6 } ] },
+    { "label_key": "event.raeuberischer_nachbar.opt_zulassen",
+      "effects": [
+        { "op": "add_varroa", "value": 2 },
+        { "op": "gain_stores", "value": 4 }
+      ] }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "varroa_kollaps",
+  "name_key": "threat.varroa_kollaps.name",
+  "text_key": "threat.varroa_kollaps.text",
+  "hp": 50,
+  "act": 3,
+  "is_boss": true,
+  "escalation": { "type": "per_turn", "value": 2 },
+  "intents": [
+    { "id": "milbensturm", "weight": 3, "min_turn": 1,
+      "effects": [
+        { "op": "deal_damage", "value": 3, "target": "colony",
+          "scale": { "per": "varroa", "factor": 1 } }
+      ] },
+    { "id": "brutschaden", "weight": 2, "min_turn": 2,
+      "effects": [ { "op": "add_varroa", "value": 2, "target": "colony" } ] }
+  ]
+}

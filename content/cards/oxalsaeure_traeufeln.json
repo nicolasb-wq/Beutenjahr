@@ -1,0 +1,23 @@
+{
+  "id": "oxalsaeure_traeufeln",
+  "name_key": "card.oxalsaeure_traeufeln.name",
+  "text_key": "card.oxalsaeure_traeufeln.text",
+  "kompendium_key": "card.oxalsaeure_traeufeln.fact",
+  "type": "aktion",
+  "cost": 1,
+  "rarity": "rare",
+  "archetype": "sammlerin",
+  "act": 3,
+  "effects": [
+    { "op": "reduce_varroa", "value": 3 },
+    { "op": "reduce_varroa", "value": 6, "condition": { "if": "brood_free" } },
+    { "op": "exhaust_self" }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "reduce_varroa", "value": 4 },
+      { "op": "reduce_varroa", "value": 8, "condition": { "if": "brood_free" } },
+      { "op": "exhaust_self" }
+    ]
+  }
+}

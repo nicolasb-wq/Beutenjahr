@@ -1,0 +1,15 @@
+{
+  "id": "wildblumenwiese",
+  "name_key": "event.wildblumenwiese.name",
+  "text_key": "event.wildblumenwiese.text",
+  "act": 1,
+  "options": [
+    { "label_key": "event.wildblumenwiese.opt_sammeln",
+      "effects": [ { "op": "gain_stores", "value": 8 } ] },
+    { "label_key": "event.wildblumenwiese.opt_ruhe",
+      "effects": [
+        { "op": "heal", "value": 5 },
+        { "op": "add_varroa", "value": 1 }
+      ] }
+  ]
+}

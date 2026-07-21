@@ -1,0 +1,19 @@
+{
+  "id": "sammelflug",
+  "name_key": "card.sammelflug.name",
+  "text_key": "card.sammelflug.text",
+  "kompendium_key": "card.sammelflug.fact",
+  "type": "aktion",
+  "cost": 1,
+  "rarity": "common",
+  "archetype": "sammlerin",
+  "act": 1,
+  "effects": [
+    { "op": "gain_stores", "value": 6 }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "gain_stores", "value": 9 }
+    ]
+  }
+}

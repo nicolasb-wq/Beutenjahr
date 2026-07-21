@@ -1,0 +1,15 @@
+{
+  "id": "schwarmereignis",
+  "name_key": "threat.schwarmereignis.name",
+  "text_key": "threat.schwarmereignis.text",
+  "hp": 45,
+  "act": 2,
+  "is_boss": true,
+  "escalation": { "type": "per_turn", "value": 1 },
+  "intents": [
+    { "id": "abschwaermen", "weight": 3, "min_turn": 1,
+      "effects": [ { "op": "deal_damage", "value": 8, "target": "colony" } ] },
+    { "id": "schwarmzelle", "weight": 2, "min_turn": 3,
+      "effects": [ { "op": "add_varroa", "value": 3, "target": "colony" } ] }
+  ]
+}

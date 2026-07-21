@@ -1,0 +1,12 @@
+{
+  "id": "verflogene_biene",
+  "name_key": "event.verflogene_biene.name",
+  "text_key": "event.verflogene_biene.text",
+  "act": 1,
+  "options": [
+    { "label_key": "event.verflogene_biene.opt_auffuettern",
+      "effects": [ { "op": "convert", "from": "stores", "to": "strength", "ratio": 2 } ] },
+    { "label_key": "event.verflogene_biene.opt_einweisen",
+      "effects": [ { "op": "generate_card", "card_id": "sammelflug" } ] }
+  ]
+}

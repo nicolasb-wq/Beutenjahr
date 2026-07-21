@@ -1,0 +1,20 @@
+{
+  "id": "sammelmotor",
+  "name_key": "card.sammelmotor.name",
+  "text_key": "card.sammelmotor.text",
+  "kompendium_key": "card.sammelmotor.fact",
+  "type": "faehigkeit",
+  "cost": 2,
+  "rarity": "uncommon",
+  "archetype": "sammlerin",
+  "act": 1,
+  "effects": [
+    { "op": "scale_per_turn", "status": "sammeltrieb", "value": 1 }
+  ],
+  "upgrade": {
+    "cost": 1,
+    "effects": [
+      { "op": "scale_per_turn", "status": "sammeltrieb", "value": 1 }
+    ]
+  }
+}

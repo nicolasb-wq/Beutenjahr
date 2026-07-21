@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "defs.schema.json",
+  "title": "Beutenjahr gemeinsame Definitionen (Content-Schema v1)",
+  "$defs": {
+    "op": {
+      "enum": [
+        "heal", "gain_stores", "spend_stores", "gain_energy", "gain_max_energy", "gain_guards",
+        "add_varroa", "reduce_varroa", "dampen_varroa",
+        "deal_damage", "weaken_threat", "delay_intent",
+        "draw", "discard", "generate_card", "exhaust_self", "retain_hand", "scry",
+        "apply_status", "remove_status", "scale_per_turn",
+        "heal_start_of_turn", "double_next", "convert",
+        "custom_effect"
+      ]
+    },
+    "target": { "enum": ["colony", "threat"] },
+    "resource": { "enum": ["strength", "stores", "varroa", "guards", "energy"] },
+    "status": {
+      "enum": [
+        "propolis", "sammeltrieb", "kraft", "regeneration", "zaehigkeit",
+        "benommen", "markiert", "verlangsamt"
+      ]
+    },
+    "scale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["per", "factor"],
+      "properties": {
+        "per": { "enum": ["stores", "strength", "varroa", "guards", "hand_size", "cards_played"] },
+        "factor": { "type": "integer" }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["if"],
+      "properties": {
+        "if": {
+          "enum": ["varroa_over", "varroa_under", "stores_over", "stores_under",
+                   "strength_under", "brood_free", "has_status"]
+        },
+        "value": { "type": "integer" },
+        "status": { "$ref": "defs.schema.json#/$defs/status" },
+        "target": { "$ref": "defs.schema.json#/$defs/target" }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op"],
+      "properties": {
+        "op": { "$ref": "defs.schema.json#/$defs/op" },
+        "value": { "type": "integer" },
+        "target": { "$ref": "defs.schema.json#/$defs/target" },
+        "scale": { "$ref": "defs.schema.json#/$defs/scale" },
+        "condition": { "$ref": "defs.schema.json#/$defs/condition" },
+        "status": { "$ref": "defs.schema.json#/$defs/status" },
+        "card_id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "hook": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "from": { "$ref": "defs.schema.json#/$defs/resource" },
+        "to": { "$ref": "defs.schema.json#/$defs/resource" },
+        "ratio": { "type": "integer", "minimum": 1 },
+        "select": { "enum": ["random", "choose", "all"] }
+      }
+    },
+    "effect_list": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "defs.schema.json#/$defs/effect" }
+    },
+    "rarity": { "enum": ["common", "uncommon", "rare", "special"] },
+    "archetype": { "enum": ["sammlerin", "wehrhafte", "zuechterin", "neutral"] },
+    "act": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+    "key": { "type": "string", "pattern": "^[a-z0-9_.]+$" }
+  }
+}

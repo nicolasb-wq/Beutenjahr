@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "card.schema.json",
+  "title": "Beutenjahr Karte",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name_key", "text_key", "type", "cost", "rarity", "archetype", "act", "effects"],
+  "properties": {
+    "id": { "$ref": "defs.schema.json#/$defs/id" },
+    "name_key": { "$ref": "defs.schema.json#/$defs/key" },
+    "text_key": { "$ref": "defs.schema.json#/$defs/key" },
+    "kompendium_key": { "$ref": "defs.schema.json#/$defs/key" },
+    "type": { "enum": ["aktion", "faehigkeit", "ereigniskarte"] },
+    "cost": { "type": "integer", "minimum": 0, "maximum": 6 },
+    "rarity": { "$ref": "defs.schema.json#/$defs/rarity" },
+    "archetype": { "$ref": "defs.schema.json#/$defs/archetype" },
+    "act": { "$ref": "defs.schema.json#/$defs/act" },
+    "effects": { "$ref": "defs.schema.json#/$defs/effect_list" },
+    "upgrade": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "cost": { "type": "integer", "minimum": 0, "maximum": 6 },
+        "type": { "enum": ["aktion", "faehigkeit", "ereigniskarte"] },
+        "rarity": { "$ref": "defs.schema.json#/$defs/rarity" },
+        "effects": { "$ref": "defs.schema.json#/$defs/effect_list" },
+        "text_key": { "$ref": "defs.schema.json#/$defs/key" }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "absperrgitter",
+  "name_key": "relic.absperrgitter.name",
+  "text_key": "relic.absperrgitter.text",
+  "rarity": "rare",
+  "trigger": "on_varroa_threshold",
+  "trigger_value": 6,
+  "effects": [ { "op": "custom_effect", "hook": "halbiere_varroa_wachstum" } ]
+}

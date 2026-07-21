@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "relic.schema.json",
+  "title": "Beutenjahr Relikt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name_key", "text_key", "rarity", "trigger", "effects"],
+  "properties": {
+    "id": { "$ref": "defs.schema.json#/$defs/id" },
+    "name_key": { "$ref": "defs.schema.json#/$defs/key" },
+    "text_key": { "$ref": "defs.schema.json#/$defs/key" },
+    "rarity": { "$ref": "defs.schema.json#/$defs/rarity" },
+    "trigger": {
+      "enum": ["run_start", "encounter_start", "turn_start", "turn_end",
+               "on_play_card", "on_varroa_threshold", "on_stores_spent"]
+    },
+    "trigger_value": { "type": "integer" },
+    "effects": { "$ref": "defs.schema.json#/$defs/effect_list" }
+  }
+}

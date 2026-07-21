@@ -1,0 +1,8 @@
+{
+  "id": "beutenbock",
+  "name_key": "relic.beutenbock.name",
+  "text_key": "relic.beutenbock.text",
+  "rarity": "common",
+  "trigger": "turn_start",
+  "effects": [ { "op": "gain_guards", "value": 2, "target": "colony" } ]
+}

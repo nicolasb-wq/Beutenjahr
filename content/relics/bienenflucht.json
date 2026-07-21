@@ -1,0 +1,8 @@
+{
+  "id": "bienenflucht",
+  "name_key": "relic.bienenflucht.name",
+  "text_key": "relic.bienenflucht.text",
+  "rarity": "common",
+  "trigger": "encounter_start",
+  "effects": [ { "op": "draw", "value": 1 } ]
+}

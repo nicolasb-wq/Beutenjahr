@@ -1,0 +1,8 @@
+{
+  "id": "stockmeissel",
+  "name_key": "relic.stockmeissel.name",
+  "text_key": "relic.stockmeissel.text",
+  "rarity": "uncommon",
+  "trigger": "on_play_card",
+  "effects": [ { "op": "apply_status", "target": "threat", "status": "markiert", "value": 1 } ]
+}
