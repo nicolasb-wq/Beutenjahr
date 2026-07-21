@@ -5,13 +5,19 @@ name: CI
 #   1. lint-content  — GDScript-Lint + Content-JSON-Validierung. Braucht kein
 #                      Godot, laeuft in dieser Cloud-Umgebung lokal identisch.
 #   2. godot         — laedt Godot headless, importiert das Projekt und faehrt
-#                      (ab Phase 1) den Test-Runner. Bis dahin: Projekt-Ladecheck.
+#                      den Headless-Test-Runner (Determinismus, Engine, Interpreter).
 
 on:
   push:
     branches: ["**"]
   pull_request:
   workflow_dispatch:
+
+# Neuer Push auf denselben Ref bricht laufende Runs ab (spart Minuten,
+# verhindert dass ein haengender Run blockiert).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 # Godot-Version zentral. MENSCH-TODO: gegen die lokal gepinnte stable-Version
 # abgleichen (ADR-0001).
@@ -22,6 +28,7 @@ jobs:
   lint-content:
     name: Lint & Content
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -48,6 +55,7 @@ jobs:
   godot:
     name: Godot headless
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
 
@@ -63,22 +71,35 @@ jobs:
           godot --version
 
       - name: Projekt importieren (Ladecheck)
+        timeout-minutes: 5
         run: |
           set -euo pipefail
-          # Import triggert das Parsen aller Skripte/Ressourcen. Bricht bei
-          # Parserfehlern ab.
           godot --headless --import 2>&1 | tee import.log
           if grep -Eiq "SCRIPT ERROR|Parse Error|Failed to load" import.log; then
             echo "::error::Godot meldete Script-/Ladefehler beim Import"
             exit 1
           fi
 
-      # Ab Phase 1 (Test-Runner vorhanden) aktiv:
       - name: Headless-Tests
+        timeout-minutes: 5
         run: |
-          set -euo pipefail
-          if [ -f tests/run_tests.gd ]; then
-            godot --headless --script res://tests/run_tests.gd
-          else
-            echo "Noch kein Test-Runner (kommt in Phase 1, AP 1.2)."
+          set -uo pipefail
+          if [ ! -f tests/run_tests.gd ]; then
+            echo "Noch kein Test-Runner."
+            exit 0
           fi
+          # --quit-after erzwingt Beenden, falls der SceneTree-Runner nicht
+          # selbst quittet (Absicherung gegen Idle-Hang). Bewertung ueber das
+          # Erfolgs-Sentinel im Log, nicht ueber den Exit-Code.
+          godot --headless --quit-after 5000 --script res://tests/run_tests.gd 2>&1 | tee tests.log || true
+          echo "---------------------------------"
+          if grep -Eiq "SCRIPT ERROR|Parse Error" tests.log; then
+            echo "::error::Laufzeit-/Script-Fehler in den Tests"
+            exit 1
+          fi
+          if grep -q "ALLE .* TESTS GRUEN" tests.log; then
+            echo "Headless-Tests grün."
+            exit 0
+          fi
+          echo "::error::Erfolgs-Sentinel fehlt — Tests nicht grün oder Runner lief nicht als MainLoop"
+          exit 1
