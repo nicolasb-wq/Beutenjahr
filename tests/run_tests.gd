@@ -11,6 +11,8 @@ const SUITES: Array = [
 	preload("res://tests/test_interpreter.gd"),
 	preload("res://tests/test_interpreter_ops.gd"),
 	preload("res://tests/test_turn_engine.gd"),
+	preload("res://tests/test_threat_ai.gd"),
+	preload("res://tests/test_autoplayer.gd"),
 	preload("res://tests/test_determinism.gd"),
 ]
 

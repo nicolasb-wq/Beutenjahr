@@ -29,6 +29,7 @@ var flags: Dictionary = {}  # z. B. brood_free
 
 var threat: ThreatState = null
 var result: String = ""  # "" | "won" | "lost" | "fled"
+var reward_choices: Array = []  # bei Sieg: bis zu 3 Karten-ids zur Auswahl
 
 
 static func create(deck: Array, threat_state: ThreatState) -> EncounterState:
@@ -100,6 +101,7 @@ func snapshot() -> Dictionary:
 		"flags": flags.duplicate(true),
 		"threat": threat.snapshot() if threat != null else {},
 		"result": result,
+		"reward_choices": reward_choices.duplicate(),
 	}
 
 

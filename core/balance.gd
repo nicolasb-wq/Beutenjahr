@@ -14,3 +14,18 @@ const START_VARROA: int = 3
 
 const VARROA_BASE_GROWTH: int = 1
 const VARROA_GROWTH_PCT: int = 15
+
+# Milbendruck-Schwellen (ADR-0004). Anzahl erreichter Schwellen = Druck 0..3.
+const VARROA_THRESHOLDS: Array[int] = [8, 14, 20]
+
+# Bedrohungs-Phasenlaenge in Zuegen (ADR-0004).
+const THREAT_PHASE_LENGTH: int = 3
+
+
+## Milbendruck: Anzahl erreichter/ueberschrittener Varroa-Schwellen.
+static func varroa_pressure(varroa: int) -> int:
+	var pressure := 0
+	for threshold: int in VARROA_THRESHOLDS:
+		if varroa >= threshold:
+			pressure += 1
+	return pressure

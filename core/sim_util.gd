@@ -26,3 +26,26 @@ static func play_first_playable(engine: TurnEngine, max_turns: int) -> void:
 		if engine.is_over():
 			return
 		engine.end_turn()
+
+
+## Autoplayer v0 (ADR-0004): spielt je Zug eine zufaellige legale Karte, bis
+## keine mehr legal ist, dann Zugende. Eigener seeded RNG (Policy ist Eingabe,
+## nicht Spielzustand). Zweck: Crashfreiheit-Nachweis; der Balancing-Bot folgt
+## in Phase 4.
+static func play_random_legal(engine: TurnEngine, policy_seed: int, max_turns: int) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = policy_seed
+	engine.start_encounter()
+	var guard := 0
+	while not engine.is_over() and engine.enc.turn_number <= max_turns:
+		var legal: Array = []
+		for i in engine.enc.hand.size():
+			if engine.can_play(i):
+				legal.append(i)
+		if legal.is_empty():
+			engine.end_turn()
+		else:
+			engine.play_card(legal[rng.randi_range(0, legal.size() - 1)])
+		guard += 1
+		if guard > _GUARD_LIMIT:
+			return

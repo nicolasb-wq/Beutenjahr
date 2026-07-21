@@ -42,21 +42,21 @@ func apply(effect: Dictionary, ctx: Dictionary) -> void:
 		"gain_stores":
 			if colony_source:
 				value += int(enc.statuses.get("sammeltrieb", 0))
-			enc.stores += value
+			enc.stores += _colony_out(value, colony_source)
 		"spend_stores":
 			enc.stores = max(0, enc.stores - value)
 		"heal":
 			if target == "threat" and enc.threat != null:
 				enc.threat.hp = min(enc.threat.max_hp, enc.threat.hp + value)
 			else:
-				enc.strength += value
+				enc.strength += _colony_out(value, colony_source)
 		"gain_energy":
 			enc.energy += value
 		"gain_max_energy":
 			enc.max_energy += value
 			enc.energy += value
 		"gain_guards":
-			enc.guards += value
+			enc.guards += _colony_out(value, colony_source)
 		"add_varroa":
 			enc.varroa += value
 		"reduce_varroa":
@@ -118,12 +118,14 @@ func _deal_damage(target: String, value: int, colony_source: bool) -> void:
 		if colony_source:
 			dmg += int(enc.statuses.get("kraft", 0))
 		dmg += int(enc.threat.statuses.get("markiert", 0))
+		dmg = _colony_out(dmg, colony_source)  # Milbendruck senkt ausgehenden Schaden
 		enc.threat.hp = max(0, enc.threat.hp - dmg)
 	else:
 		# Ziel colony.
 		if not colony_source:
+			var extra := enc.threat.escalation_bonus if enc.threat != null else 0
 			var benommen := int(enc.threat.statuses.get("benommen", 0)) if enc.threat != null else 0
-			dmg = max(0, dmg - benommen)
+			dmg = max(0, dmg + extra - benommen)
 			var absorbed: int = min(enc.guards, dmg)
 			enc.guards -= absorbed
 			enc.strength = max(0, enc.strength - (dmg - absorbed))
@@ -184,6 +186,13 @@ func _resolve_value(effect: Dictionary, ctx: Dictionary) -> int:
 	if bool(ctx.get("double", false)):
 		v *= 2
 	return v
+
+
+## Senkt vom Volk ausgehende Wirkungen um den Milbendruck (ADR-0004).
+func _colony_out(base: int, colony_source: bool) -> int:
+	if not colony_source:
+		return base
+	return max(0, base - Balance.varroa_pressure(enc.varroa))
 
 
 func _metric(per: String) -> int:

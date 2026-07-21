@@ -8,6 +8,7 @@ var hp: int = 0
 var max_hp: int = 0
 var phase: int = 1
 var delayed_turns: int = 0
+var escalation_bonus: int = 0
 var current_intent: Dictionary = {}
 var statuses: Dictionary = {}  # benommen / markiert / verlangsamt -> Stapel
 
@@ -27,6 +28,7 @@ func snapshot() -> Dictionary:
 		"hp": hp,
 		"phase": phase,
 		"delayed_turns": delayed_turns,
+		"escalation_bonus": escalation_bonus,
 		"intent": current_intent.get("id", ""),
 		"statuses": statuses.duplicate(true),
 	}

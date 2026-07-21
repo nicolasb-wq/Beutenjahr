@@ -9,7 +9,7 @@ extends RefCounted
 ## Determinismus: gleicher `master_seed` -> identische Folgen. Kein Zugriff
 ## auf den globalen RNG, keine Zeit-/Frame-Abhaengigkeit.
 
-const STREAM_NAMES: Array[String] = ["deck", "threat", "event", "map"]
+const STREAM_NAMES: Array[String] = ["deck", "threat", "event", "map", "reward"]
 
 var _streams: Dictionary = {}
 var _master_seed: int = 0

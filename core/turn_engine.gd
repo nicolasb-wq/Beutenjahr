@@ -46,6 +46,7 @@ func start_turn() -> void:
 		enc.guards = 0
 	enc.cards_played_this_turn = 0
 	enc.retain_hand_flag = false
+	_update_threat_phase()
 	game_log.add("--- Zug %d ---" % enc.turn_number)
 	_fire_relics("turn_start")
 	_varroa_tick()
@@ -115,6 +116,14 @@ func is_over() -> bool:
 	return enc.result != ""
 
 
+## Flucht: nur solange die Begegnung nicht entschieden ist (ADR-0004).
+func flee() -> void:
+	if is_over():
+		return
+	enc.result = "fled"
+	game_log.add(">>> Geflohen (Zug %d)" % enc.turn_number)
+
+
 # --- interne Schritte -------------------------------------------------------
 
 
@@ -134,6 +143,26 @@ func _status_start_of_turn() -> void:
 		game_log.add("  Regeneration: +%d Volksstaerke" % regen)
 	for st: String in enc.scaling.keys():
 		enc.add_status(st, int(enc.scaling[st]))
+
+
+func _update_threat_phase() -> void:
+	if enc.threat == null:
+		return
+	enc.threat.phase = 1 + (enc.turn_number - 1) / Balance.THREAT_PHASE_LENGTH
+	var esc: Dictionary = enc.threat.def.get("escalation", {})
+	var etype := String(esc.get("type", "none"))
+	var evalue := int(esc.get("value", 0))
+	if etype == "per_turn":
+		enc.threat.escalation_bonus = (enc.turn_number - 1) * evalue
+	elif etype == "per_phase":
+		enc.threat.escalation_bonus = (enc.threat.phase - 1) * evalue
+	else:
+		enc.threat.escalation_bonus = 0
+
+
+func _offer_reward() -> void:
+	enc.reward_choices = RewardUtil.offer(rng, content, 3)
+	game_log.add("  Belohnungswahl: %s" % str(enc.reward_choices))
 
 
 func _reveal_intent() -> void:
@@ -178,6 +207,7 @@ func _check_end() -> void:
 		return
 	if enc.threat != null and enc.threat.hp <= 0:
 		enc.result = "won"
+		_offer_reward()
 		game_log.add(">>> Begegnung gewonnen (Zug %d)" % enc.turn_number)
 	elif enc.strength <= 0:
 		enc.result = "lost"
