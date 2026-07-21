@@ -2,20 +2,20 @@
 
 ## Jetzt
 
-**Phase 1, AP 1.3 — Bedrohungs-KI, Varroa-Eskalation & Autoplayer v0.**
+**Phase 2 — SPASS-GATE vorbereiten (AP 2.1/2.2).** Das ist ein **Mensch-Gate**: den Go/Rework/Kill-Entscheid mit ≥10 Testern kann nur der Mensch fällen (ADR-0002 folgt daraus). Meine Aufgabe: alles so vorbereiten, dass der Test sofort durchführbar ist.
 
-Konkret (Blueprint AP 1.3):
-1. **Intent-System vervollständigen:** echte Phasenwechsel (z. B. Wespen ab Runde 4 aggressiver) — `ThreatState.phase` steuern über `escalation` (`per_turn`/`per_phase`); phasengated Intents (`phase`-Feld) werden dann eligible.
-2. **Varroa-Eskalationsmodell — die Signature-Mechanik (hier Zeit investieren):** Schwellen verschlechtern Kartenwirkungen. Modell definieren (z. B. ab Schwelle X: −1 auf ausgehende Werte oder Strafschaden je Zug), in ADR festhalten, testen.
-3. **Begegnungsabschluss:** Sieg/Niederlage/**Flucht** inkl. Belohnungswahl (1 aus 3 Karten, seeded — Genre-Standard).
-4. **Autoplayer v0:** spielt zufällig legal; übersteht **100 Begegnungen ohne Crash** (Grundlage für den Balancing-Bot in Phase 4).
+Konkrete nächste Schritte (klein schneiden):
+1. **Greybox-Minimal-UI** über den Kern (erste `ui/`-Node-Schicht, „null Schönheit, volle Funktion"): Kartenhand als Rechtecke+Text, Tap zum Spielen, Zustandsanzeigen (Volksstärke/Vorräte/Varroa/Energie/Wächterinnen), Intent-Icon, Zug-Ende-Button. UI ruft nur den Kern auf (kein Regelcode in der UI).
+2. **Akt-1-Greybox spielbar** machen (Sammlerin-Startdeck + 1–2 Begegnungen aus vorhandenem Content).
+3. **Testermaterialien** als Dateien: `docs/gate/testerbogen.md` (Fragen: „Noch einen Run gestartet? Spannendste Entscheidung? Was verwirrend?") und `docs/gate/kill-kriterien.md` (VORAB fix: ≥6/10 starten unaufgefordert 2. Run; ≥7/10 erklären Varroa in einem Satz).
+4. **Eintrag in `MENSCH-TODO.md`** samt Debug-Build-Anleitung.
 
-**DoD (Blueprint):** Komplette Begegnung headless durchspielbar; Autoplayer übersteht 100 Begegnungen ohne Crash. Tests grün in CI.
+**DoD (was ich liefern kann):** Greybox startet, ein Akt ist tap-spielbar; Testerbogen + Kill-Kriterien liegen als Dateien; Gate in MENSCH-TODO verankert.
 
-**Stolperfalle (Blueprint):** Eskalation linear statt spürbar — Varroa muss sich wie eine tickende Uhr anfühlen; lieber zu böse starten und runterdrehen.
+**Wichtig (CLAUDE.md):** Nach diesem Gate in `FORTSCHRITT.md` markieren: „Ab hier ist Investition durch kein menschliches Gate geprüft." Ich darf danach autonom weiterbauen (Phase 3), aber ehrlich gekennzeichnet.
 
 ## Danach
 
-- Phase 1 abgeschlossen → **Phase 2 (SPASS-GATE)**: Papier-Prototyp + Greybox. Achtung: Greybox braucht eine Minimal-UI (erste Node-Schicht über dem Kern) und ist ein **Mensch-Gate** (≥10 Tester) — vorbereiten, nicht selbst durchführen.
+- Phase 3 (Run-Struktur): Pfadkarte/Knoten-Graph, Akt-Übergänge, Ereignisse/Tausch/Relikte im Run, Meta-Save + Freischaltbaum, Replay-Export — und das **Anwenden** der Belohnungswahl aufs Run-Deck.
 
-> CI ist die maßgebliche Verifikation. Vor jedem Push: `gdlint`/`gdformat`/`validate_content.py` lokal grün.
+> Godot lokal nicht ausführbar → CI ist die Verifikation. Vor jedem Push: `gdlint`/`gdformat`/`validate_content.py` grün. UI-Verhalten ist headless schwerer testbar — Kernlogik bleibt in `core/` (getestet), die UI dünn halten.

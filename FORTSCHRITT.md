@@ -41,6 +41,29 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 
 ---
 
+## 2026-07-21 — Phase 1 AP 1.3 + PHASE 1 ABGESCHLOSSEN ✅ CI-verifiziert
+
+### Erledigt (AP 1.3)
+- **Varroa-Schwellen-Verschlechterung (Signature-Mechanik, ADR-0004):** Milbendruck (0–3 aus Schwellen [8,14,20]) senkt vom Volk ausgehende Wirkungen; Behandlung bleibt wirksam (kein Todesspiral).
+- **Bedrohungs-KI:** Phasenprogression (`THREAT_PHASE_LENGTH`), phasengated Intents werden eligible, `escalation_bonus` (per_turn/per_phase) steigert eingehenden Schaden über die Begegnung.
+- **Begegnungsabschluss:** `flee()` + Belohnungswahl 1-aus-3 (`RewardUtil`, seeded `reward`-Strom, deterministisch). Anwenden aufs Run-Deck = Phase 3.
+- **Autoplayer v0** (`SimUtil.play_random_legal`, eigener Policy-RNG).
+
+### CI: BEIDE JOBS GRÜN ✅ (Run 7223bde) — **ALLE 60 TESTS GRUEN**
+(test_rng 4 · test_interpreter 18 · test_interpreter_ops 14 · test_turn_engine 11 · test_threat_ai 9 · test_autoplayer 2 · test_determinism 2). **Autoplayer übersteht 100 Begegnungen ohne Crash (DoD AP 1.3).**
+
+### Phase-1-Abschluss (Blueprint DoD)
+- [x] Karten-Engine + Effekt-Interpreter headless, alle 25 Primitive
+- [x] Determinismus-Doppellauf bitidentisch · Save-Snapshot vorhanden
+- [x] Bedrohungs-KI/Intent, Varroa-Eskalation, Sieg/Niederlage/Flucht + Belohnung
+- [x] Autoplayer v0 crashfrei (100 Begegnungen)
+- [x] CI grün als Release-Bedingung
+
+### Als Nächstes — Phase 2 (SPASS-GATE, Mensch-Gate)
+- Greybox-Minimal-UI über den Kern bauen (erste `ui/`-Schicht) + Testermaterialien (Bogen, Kill-Kriterien als Datei) vorbereiten. **Go/Rework/Kill entscheidet ein Mensch mit ≥10 Testern** (Eintrag in `MENSCH-TODO.md`). Details `NEXT.md`.
+
+---
+
 ## 2026-07-21 — Phase 1 AP 1.2 (Effekt-Interpreter fertig) ✅ CI-verifiziert
 
 ### Erledigt
@@ -81,8 +104,8 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 ## Phasen-Checkliste (Blueprint Abschnitt 9)
 
 - [x] **Phase 0** — Setup, Marktcheck, Schema ✅ (CI grün)
-- [ ] **Phase 1** — Karten-Engine + Effekt-Interpreter (headless)  ← *AP 1.1 fertig, AP 1.2/1.3 offen*
-- [ ] Phase 2 — Papier-Prototyp + Greybox (SPASS-GATE)
+- [x] **Phase 1** — Karten-Engine + Effekt-Interpreter (headless) ✅ (60 Tests, CI grün)
+- [ ] **Phase 2** — Papier-Prototyp + Greybox (SPASS-GATE)  ← *als Nächstes (Mensch-Gate)*
 - [ ] Phase 3 — Run-Struktur
 - [ ] Phase 4 — Content & Balancing (137 Objekte)
 - [ ] Phase 5 — UI/UX
