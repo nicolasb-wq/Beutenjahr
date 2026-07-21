@@ -1,0 +1,4 @@
+# Lokale Entwickler-Werkzeuge (kein Godot). Installation:
+#   pip install -r tools/requirements.txt
+gdtoolkit==4.*
+jsonschema>=4

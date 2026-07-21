@@ -19,19 +19,22 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 - **Nur in CI / auf Menschen-Maschine verifizierbar:** echter Godot-Lauf, Unit-Tests, Determinismus-Doppellauf.
 - **Konsequenz:** GitHub-Actions-CI ist die maßgebliche Verifikationsschleife. Ein Commit gilt erst als verifiziert, wenn die CI grün ist.
 
+- **AP 0.3 (Content-Schema v1)** ✅ — `docs/content-schema.md`, `content/schema/*`, 13 Beispiel-Objekte, `tools/validate_content.py` (grün + Negativtest bestätigt Greifen).
+- **CI-Grundgerüst** ✅ — `.github/workflows/ci.yml`: Job `lint-content` (gdlint/gdformat/Content-Validierung, lokal verifiziert) + Job `godot` (Godot 4.5 headless, Projekt-Import; Test-Runner-Aufruf ab Phase 1 aktiv).
+
 ### Offen / als Nächstes
-- AP 0.3 (Content-Schema + Effekt-Vokabular + 9 Beispiele) — siehe `NEXT.md`.
-- CI-Grundgerüst aufsetzen.
+- **CI-Lauf beobachten:** Job `godot` ist in dieser Cloud-Umgebung NICHT lokal verifizierbar (kein Godot, Download geblockt) — erst der echte GitHub-Actions-Lauf bestätigt ihn. Job `lint-content` ist lokal grün.
+- Phase 1, AP 1.1 (`core/`-Kernzustand & Zug-Loop) — siehe `NEXT.md`.
 
 ### Risiken
 - **Godot-Version (Glaube ich: 4.5):** aus gdtoolkit-Signal abgeleitet, nicht direkt verifiziert. Mensch pinnt final (MENSCH-TODO).
 - **Keine lokale Godot-Ausführung:** erhöht die Abhängigkeit von CI-Latenz; Gegenmaßnahme: strenges lokales Linting + JSON-Validierung vor jedem Push.
 
-### Selbstkontrolle Phase 0 (Zwischenstand)
+### Selbstkontrolle Phase 0
 - [x] AP 0.1 DoD (Notizen im Repo)
-- [~] AP 0.2 DoD (Skelett steht; Handy-Export = Mensch)
-- [ ] AP 0.3 DoD (Schema + 9 Beispiele)
-- [ ] Phase-0-Abschluss: leeres Projekt lauffähig (CI-verifiziert) + Schema steht
+- [~] AP 0.2 DoD (Skelett steht; Handy-Export = Mensch, MENSCH-TODO)
+- [x] AP 0.3 DoD (Schema + 9 Beispiele, Validator grün)
+- [~] Phase-0-Abschluss: Schema steht ✅; „leeres Projekt lauffähig" wartet auf ersten grünen CI-`godot`-Job
 
 ---
 

@@ -1,0 +1,84 @@
+name: CI
+
+# "CI gruen" ist Release-Bedingung (Serien-Handbuch §1.4).
+# Zwei Jobs:
+#   1. lint-content  — GDScript-Lint + Content-JSON-Validierung. Braucht kein
+#                      Godot, laeuft in dieser Cloud-Umgebung lokal identisch.
+#   2. godot         — laedt Godot headless, importiert das Projekt und faehrt
+#                      (ab Phase 1) den Test-Runner. Bis dahin: Projekt-Ladecheck.
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+# Godot-Version zentral. MENSCH-TODO: gegen die lokal gepinnte stable-Version
+# abgleichen (ADR-0001).
+env:
+  GODOT_VERSION: "4.5"
+
+jobs:
+  lint-content:
+    name: Lint & Content
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Werkzeuge installieren
+        run: pip install "gdtoolkit==4.*" "jsonschema>=4"
+
+      - name: GDScript-Lint (gdlint)
+        run: |
+          files=$(git ls-files '*.gd')
+          if [ -n "$files" ]; then gdlint $files; else echo "keine .gd-Dateien"; fi
+
+      - name: GDScript-Format-Check (gdformat)
+        run: |
+          files=$(git ls-files '*.gd')
+          if [ -n "$files" ]; then gdformat --check $files; else echo "keine .gd-Dateien"; fi
+
+      - name: Content-JSON validieren
+        run: python3 tools/validate_content.py
+
+  godot:
+    name: Godot headless
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Godot ${{ env.GODOT_VERSION }} holen
+        run: |
+          set -euo pipefail
+          BASE="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
+          ZIP="Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          curl -fSL -o godot.zip "${BASE}/${ZIP}"
+          unzip -q godot.zip
+          mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
+          chmod +x /usr/local/bin/godot
+          godot --version
+
+      - name: Projekt importieren (Ladecheck)
+        run: |
+          set -euo pipefail
+          # Import triggert das Parsen aller Skripte/Ressourcen. Bricht bei
+          # Parserfehlern ab.
+          godot --headless --import 2>&1 | tee import.log
+          if grep -Eiq "SCRIPT ERROR|Parse Error|Failed to load" import.log; then
+            echo "::error::Godot meldete Script-/Ladefehler beim Import"
+            exit 1
+          fi
+
+      # Ab Phase 1 (Test-Runner vorhanden) aktiv:
+      - name: Headless-Tests
+        run: |
+          set -euo pipefail
+          if [ -f tests/run_tests.gd ]; then
+            godot --headless --script res://tests/run_tests.gd
+          else
+            echo "Noch kein Test-Runner (kommt in Phase 1, AP 1.2)."
+          fi

@@ -2,19 +2,21 @@
 
 ## Jetzt
 
-**AP 0.3 — Content-Schema v1 + Effekt-Vokabular (~25 Primitive) + 9 Beispiel-JSONs.**
+**Phase 1, AP 1.1 — Kernzustand & Zug-Loop (`core/`, headless).**
 
 Konkret:
-1. `docs/content-schema.md`: Felder für Karte / Bedrohung / Ereignis / Relikt festlegen.
-2. Effekt-Vokabular v1 definieren (~25 Primitive) + `custom_effect`-Hook. Gegenprobe: lassen sich 10 Beispielkarten damit ausdrücken?
-3. Je 3 valide Beispiel-JSONs (Karte / Bedrohung / Ereignis) von Hand.
-4. JSON-Schemas + `tools/validate_content.py` für maschinelle Validierung (lokal + CI).
+1. `core/`-Klassen: `RunState`, `EncounterState` (Volksstärke, Vorräte, Varroalast, Energie, Wächterinnen, Hand/Zieh-/Ablagestapel), `ThreatState`, `RngService` (getrennte, seeded Ströme: `deck`, `threat`, `event`, `map`).
+2. Zug-Loop als reine Zustandsmaschine: Zugbeginn (Energie auffrischen, ziehen, Varroa-Tick, Intent würfeln) → Spieleraktionen → Zugende → Bedrohungsaktion.
+3. **Alle Regeln als Doku-Kommentar VOR dem Code** — Reihenfolge-Fragen (z. B. „wirkt Relikt vor oder nach Varroa-Tick?") jetzt festlegen, nicht im Bugfix. Auch offene Punkte aus `docs/content-schema.md §6`.
+4. Minimaler Headless-Test-Runner (`tests/run_tests.gd` + `tests/test_case.gd`) — dann greift der zweite CI-Job.
 
-**DoD:** Schema-Doku + 9 valide Beispiele; `validate_content.py` grün.
+**DoD:** Konsolen-Skript spielt einen gescripteten Zug mit Textausgabe; Doppellauf mit gleichem Seed = bitidentisch (Determinismus). Erste Unit-Tests grün in CI.
+
+**Stolperfalle (Blueprint):** RNG-Ströme mischen — dann verschiebt jede neue Karte im Pool sämtliche Replays. Strikt getrennte Ströme.
 
 ## Danach
 
-- CI-Grundgerüst (GitHub Actions): Godot-4.5-headless-Lauf, gdlint, Content-Validierung.
-- Dann Phase 1, AP 1.1: `core/`-Kernzustand & Zug-Loop mit getrennten seeded RNG-Strömen.
+- AP 1.2 Effekt-Interpreter (die 25 Primitive aus dem Schema) + ≥25 Unit-Tests.
+- AP 1.3 Bedrohungs-KI, Varroa-Eskalation, Autoplayer v0.
 
-> Regel: immer nur EIN nächster Schritt hier. Nach Erledigung fortschreiben.
+> Voraussetzung: erst prüfen, dass die Phase-0-CI grün ist (beide Jobs).
