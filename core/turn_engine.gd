@@ -45,6 +45,7 @@ func start_turn() -> void:
 	if not enc.has_status("propolis"):
 		enc.guards = 0
 	enc.cards_played_this_turn = 0
+	enc.retain_hand_flag = false
 	game_log.add("--- Zug %d ---" % enc.turn_number)
 	_fire_relics("turn_start")
 	_varroa_tick()
@@ -100,7 +101,10 @@ func end_turn() -> void:
 	if is_over():
 		return
 	_fire_relics("turn_end")
-	enc.discard_hand()
+	if enc.retain_hand_flag:
+		enc.retain_hand_flag = false  # Behalte-Effekt gilt nur diesen Zug
+	else:
+		enc.discard_hand()
 	_threat_act()
 	_check_end()
 	if not is_over():

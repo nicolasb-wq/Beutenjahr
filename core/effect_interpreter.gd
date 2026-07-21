@@ -84,12 +84,10 @@ func apply(effect: Dictionary, ctx: Dictionary) -> void:
 		"exhaust_self":
 			ctx["exhaust"] = true
 		"retain_hand":
-			# v1: Platzhalter. Echte Behalte-Semantik (unausgespielte Karten am
-			# Zugende behalten) braucht einen anderen Hook -> AP 1.2.
-			game_log.add("  [retain_hand: v1 noch ohne Wirkung]")
+			# Die restliche Hand wird am Zugende NICHT abgelegt (Behalte-Keyword).
+			enc.retain_hand_flag = true
 		"scry":
-			# v1: Blick auf oberste Karten ohne Umsortier-Entscheidung -> AP 1.2.
-			game_log.add("  [scry %d: v1 nur Anzeige, keine Umsortierung]" % value)
+			_scry(value)
 		"apply_status":
 			_status_bag(target)[String(effect.get("status", ""))] = (
 				_status_get(target, effect) + value
@@ -146,6 +144,17 @@ func _discard(effect: Dictionary, value: int) -> void:
 		var idx := rng.randi_range("deck", 0, enc.hand.size() - 1)
 		enc.discard_pile.append(enc.hand[idx])
 		enc.hand.remove_at(idx)
+
+
+func _scry(count: int) -> void:
+	# Kern-Verantwortung: die obersten Karten enthuellen (Ziehstapel-Ende =
+	# oben, weil draw() per pop_back() zieht). Die Umsortier-/Ablage-Entscheidung
+	# trifft die UI (Phase 5) bzw. der Autoplayer (Phase 4) ueber scry_reveal.
+	enc.scry_reveal = []
+	var n: int = min(count, enc.draw_pile.size())
+	for k in range(enc.draw_pile.size() - 1, enc.draw_pile.size() - 1 - n, -1):
+		enc.scry_reveal.append(String(enc.draw_pile[k].get("id", "?")))
+	game_log.add("  scry %d: %s" % [n, str(enc.scry_reveal)])
 
 
 func _convert(effect: Dictionary, value: int) -> void:

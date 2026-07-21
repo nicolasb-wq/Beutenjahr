@@ -98,3 +98,55 @@ func test_relic_turn_start_adds_guards() -> void:
 	var e := _engine(1, _deck_of("sammelflug", 10), "schwarmereignis", [beutenbock])
 	e.start_encounter()
 	assert_eq(e.enc.guards, 2, "Relikt gab 2 Wächterinnen zu Zugbeginn")
+
+
+func _engine_cards(seed_value: int, deck: Array, threat_id: String) -> TurnEngine:
+	var run := RunState.new(seed_value, content)
+	var enc := run.build_encounter(deck, threat_id)
+	return run.new_engine(enc, [])
+
+
+func test_upgrade_overrides_effects() -> void:
+	var deck: Array = []
+	for _i in 6:
+		deck.append(CardLib.make("sammelflug", true))
+	var e := _engine_cards(1, deck, "schwarmereignis")
+	e.start_encounter()
+	var stores_before := e.enc.stores
+	assert_true(e.play_card(0))
+	assert_eq(e.enc.stores, stores_before + 9, "geimkert: +9 statt +6")
+
+
+func test_upgrade_overrides_cost() -> void:
+	# sammelmotor: Basis cost 2, upgrade cost 1
+	var deck: Array = []
+	for _i in 6:
+		deck.append(CardLib.make("sammelmotor", true))
+	var e := _engine_cards(1, deck, "schwarmereignis")
+	e.start_encounter()
+	var energy_before := e.enc.energy
+	assert_true(e.play_card(0))
+	assert_eq(e.enc.energy, energy_before - 1, "geimkert kostet 1 statt 2")
+
+
+func test_retain_hand_keeps_cards() -> void:
+	content.cards["_retain"] = {
+		"id": "_retain",
+		"name_key": "x",
+		"text_key": "x",
+		"type": "aktion",
+		"cost": 0,
+		"rarity": "common",
+		"archetype": "neutral",
+		"act": 1,
+		"effects": [{"op": "retain_hand"}],
+	}
+	var deck: Array = []
+	for _i in 8:
+		deck.append(CardLib.make("_retain"))
+	var e := _engine_cards(5, deck, "schwarmereignis")
+	e.start_encounter()
+	e.enc.threat.current_intent = {"id": "noop", "effects": []}
+	assert_true(e.play_card(0), "retain-Karte spielbar")
+	e.end_turn()
+	assert_eq(e.enc.discard_pile.size(), 1, "nur die gespielte Karte abgelegt, Hand behalten")

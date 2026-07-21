@@ -194,7 +194,9 @@ Berechnung: `effektiver_value = value + floor(metric * factor)`.
 - **Referenzintegrität:** `validate_content.py` prüft zusätzlich: eindeutige IDs, `generate_card.card_id` verweist auf existierende Karte, Ereignis-Effekte nur `pers`-Ops, `custom_effect` hat `hook`, `act` ∈ {1,2,3}.
 - **Kein Content-Objekt wird committet, das nicht maschinell validiert ist** (CLAUDE.md, Technische Leitplanken).
 
-## 6. Offene Punkte (in Phase 1 zu schärfen)
-- Reihenfolge-Semantik `dampen_varroa` vs. `add_varroa` im selben Tick — beim Interpreter als Doku-Kommentar VOR dem Code festlegen (AP 1.1-Regel).
-- Genauer Effekt-Reihenfolge-/Targeting-Vertrag für `double_next` und `scale`-Interaktion.
-- `discard`-Auswahlregel (`select`: `random` | `choose` | `all`) final festzurren.
+## 6. Geklärte Entscheidungen (AP 1.1/1.2)
+- **`dampen_varroa` vs. Varroa-Tick:** `dampen_varroa` setzt `dampen_turns`; der Tick zu Zugbeginn halbiert das Wachstum, solange `dampen_turns > 0`, und dekrementiert dann (ADR-0003).
+- **`double_next` × `scale`:** Reihenfolge im Interpreter ist `wert = value + floor(metrik * factor)`, **danach** ×2 bei aktivem `double_next`. `double_next` gilt für die **nächste** gespielte Karte und wird vor deren Interpretation konsumiert (setzt sie sich selbst, verdoppelt sie sich nicht).
+- **`discard`-Auswahl:** `select` ∈ {`random` (Default), `all`}. `choose` (Spielerwahl) ist ein UI-Konzept und wird im Kern wie `random` behandelt, bis die UI (Phase 5) die Auswahl liefert.
+- **`retain_hand`:** setzt ein Zug-Flag; am Zugende wird die Hand **nicht** abgelegt. Gilt nur für den laufenden Zug (Reset zu Zugbeginn).
+- **`scry`:** der Kern enthüllt die obersten `value` Ziehkarten in `EncounterState.scry_reveal` (Seam); die Umsortier-/Ablage-Entscheidung trifft UI (Phase 5) bzw. Autoplayer (Phase 4). Die Stapelreihenfolge bleibt unverändert.

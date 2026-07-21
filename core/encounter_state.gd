@@ -14,6 +14,8 @@ var turn_number: int = 0
 var cards_played_this_turn: int = 0
 var dampen_turns: int = 0
 var double_next: bool = false
+var retain_hand_flag: bool = false
+var scry_reveal: Array = []  # ids der zuletzt per scry enthuellten Karten (UI/Autoplayer-Seam)
 
 # Karteninstanzen ({id, upgraded, ...}) in den Stapeln.
 var hand: Array = []
@@ -87,6 +89,8 @@ func snapshot() -> Dictionary:
 		"turn": turn_number,
 		"dampen_turns": dampen_turns,
 		"double_next": double_next,
+		"retain_hand": retain_hand_flag,
+		"scry_reveal": scry_reveal.duplicate(),
 		"hand": _pile_ids(hand),
 		"draw": _pile_ids(draw_pile),
 		"discard": _pile_ids(discard_pile),

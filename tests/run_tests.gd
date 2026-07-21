@@ -9,6 +9,7 @@ extends SceneTree
 const SUITES: Array = [
 	preload("res://tests/test_rng.gd"),
 	preload("res://tests/test_interpreter.gd"),
+	preload("res://tests/test_interpreter_ops.gd"),
 	preload("res://tests/test_turn_engine.gd"),
 	preload("res://tests/test_determinism.gd"),
 ]
