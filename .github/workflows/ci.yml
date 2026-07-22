@@ -49,6 +49,14 @@ jobs:
           files=$(git ls-files '*.gd')
           if [ -n "$files" ]; then gdformat --check $files; else echo "keine .gd-Dateien"; fi
 
+      - name: Variant-Inferenz-Wächter (Godot 4.5 wertet := aus Variant als Fehler)
+        run: |
+          if git ls-files '*.gd' | xargs grep -nE ':= (min|max|clamp|abs|absi|clampi|get_script)\(' ; then
+            echo "::error::':= aus Variant' gefunden (min/max/... ) — explizit typisieren (var x: int = ...)"
+            exit 1
+          fi
+          echo "keine Variant-Inferenz aus min/max/... gefunden"
+
       - name: Content-JSON validieren
         run: python3 tools/validate_content.py
 

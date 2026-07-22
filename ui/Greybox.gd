@@ -153,7 +153,7 @@ func _rebuild_hand() -> void:
 
 func _tail_log() -> String:
 	var lines := _engine.game_log.lines
-	var start := max(0, lines.size() - 6)
+	var start: int = max(0, lines.size() - 6)
 	var out: Array = []
 	for i in range(start, lines.size()):
 		out.append(lines[i])
