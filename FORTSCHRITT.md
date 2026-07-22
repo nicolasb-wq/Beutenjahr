@@ -49,6 +49,9 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 - **Headless UI-Smoke-Test** (`test_greybox_ui`): instanziiert die UI off-tree, spielt/beendet/neustartet — fängt Laufzeit-API-Fehler vor dem Tester-Build.
 - **Gate-Materialien:** `docs/gate/kill-kriterien.md`, `testerbogen.md`, `debug-build-anleitung.md`. MENSCH-TODO-Eintrag verlinkt.
 
+### CI: BEIDE JOBS GRÜN ✅ (Run ed02bd8) — **ALLE 61 TESTS GRUEN** (inkl. `test_greybox_ui` Off-tree-Smoke)
+- Gelöst: Godot 4.5 wertet `:= aus Variant` (`max()`) auch beim **Import** als Fehler; `project.godot`-Setting greift dort nicht → explizit typisiert + **CI-Variant-Wächter** (grep im Lint-Job, lokal identisch prüfbar) ergänzt.
+
 ### ⚠️ Prüf-Grenze (CLAUDE.md-Pflichtmarker)
 **Ab hier ist Investition durch kein menschliches Gate geprüft.** Das Spaß-Gate (ADR-0002) ist vorbereitet, aber noch **nicht** durchgeführt. Ich baue Phase 3 autonom weiter — der Go/Rework/Kill-Entscheid mit ≥10 Testern steht aus (`MENSCH-TODO.md`). Die **UI-Darstellung** ist bis zum ersten Debug-Build durch nichts geprüft (nur Parse + Off-tree-Smoke).
 
