@@ -1,0 +1,19 @@
+{
+  "id": "waechterinnen",
+  "name_key": "card.waechterinnen.name",
+  "text_key": "card.waechterinnen.text",
+  "kompendium_key": "card.waechterinnen.fact",
+  "type": "aktion",
+  "cost": 1,
+  "rarity": "common",
+  "archetype": "wehrhafte",
+  "act": 1,
+  "effects": [
+    { "op": "gain_guards", "value": 6, "target": "colony" }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "gain_guards", "value": 9, "target": "colony" }
+    ]
+  }
+}

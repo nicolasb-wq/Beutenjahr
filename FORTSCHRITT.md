@@ -41,6 +41,22 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 
 ---
 
+## 2026-07-21 — Phase 2 (SPASS-GATE) vorbereitet ✅
+
+### Erledigt (was ich liefern kann — der Gate-Entscheid bleibt Mensch)
+- **Greybox spielbar:** `ui/Greybox.tscn` + `Greybox.gd` (Minimal-UI, tap-to-play, Zustandsleisten, Intent, Belohnung/Neuer-Run) über den headless Kern; `main_scene` gesetzt.
+- **Roher Greybox-Kartensatz:** 8 neue Sammlerin/neutral/wehrhafte-Karten mit **Siegweg** (Offense/Economy/Behandlung/Defense/Trade-off) + 1 sanfte Akt-1-Bedrohung (`wespe_einzeln`). Schema-valide. **Balancing = Phase 4.**
+- **Headless UI-Smoke-Test** (`test_greybox_ui`): instanziiert die UI off-tree, spielt/beendet/neustartet — fängt Laufzeit-API-Fehler vor dem Tester-Build.
+- **Gate-Materialien:** `docs/gate/kill-kriterien.md`, `testerbogen.md`, `debug-build-anleitung.md`. MENSCH-TODO-Eintrag verlinkt.
+
+### ⚠️ Prüf-Grenze (CLAUDE.md-Pflichtmarker)
+**Ab hier ist Investition durch kein menschliches Gate geprüft.** Das Spaß-Gate (ADR-0002) ist vorbereitet, aber noch **nicht** durchgeführt. Ich baue Phase 3 autonom weiter — der Go/Rework/Kill-Entscheid mit ≥10 Testern steht aus (`MENSCH-TODO.md`). Die **UI-Darstellung** ist bis zum ersten Debug-Build durch nichts geprüft (nur Parse + Off-tree-Smoke).
+
+### Als Nächstes
+- Phase 3 (Run-Struktur) — siehe `NEXT.md`.
+
+---
+
 ## 2026-07-21 — Phase 1 AP 1.3 + PHASE 1 ABGESCHLOSSEN ✅ CI-verifiziert
 
 ### Erledigt (AP 1.3)
@@ -105,7 +121,8 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 
 - [x] **Phase 0** — Setup, Marktcheck, Schema ✅ (CI grün)
 - [x] **Phase 1** — Karten-Engine + Effekt-Interpreter (headless) ✅ (60 Tests, CI grün)
-- [ ] **Phase 2** — Papier-Prototyp + Greybox (SPASS-GATE)  ← *als Nächstes (Mensch-Gate)*
+- [~] **Phase 2** — Greybox (SPASS-GATE): vorbereitet ✅, Gate-Durchführung = Mensch (ADR-0002 offen)
+- [ ] **Phase 3** — Run-Struktur  ← *als Nächstes (autonom)*
 - [ ] Phase 3 — Run-Struktur
 - [ ] Phase 4 — Content & Balancing (137 Objekte)
 - [ ] Phase 5 — UI/UX

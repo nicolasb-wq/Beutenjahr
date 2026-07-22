@@ -1,0 +1,21 @@
+{
+  "id": "wehrbienen",
+  "name_key": "card.wehrbienen.name",
+  "text_key": "card.wehrbienen.text",
+  "kompendium_key": "card.wehrbienen.fact",
+  "type": "aktion",
+  "cost": 2,
+  "rarity": "uncommon",
+  "archetype": "wehrhafte",
+  "act": 1,
+  "effects": [
+    { "op": "deal_damage", "value": 8, "target": "threat" },
+    { "op": "gain_guards", "value": 3, "target": "colony" }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "deal_damage", "value": 12, "target": "threat" },
+      { "op": "gain_guards", "value": 4, "target": "colony" }
+    ]
+  }
+}

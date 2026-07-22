@@ -14,7 +14,11 @@ Legende: 🔴 Blocker für Release · 🟡 wichtig, terminiert · ⚪ optional/s
 
 ## Gates (Investitionsschutz)
 
-- 🔴 **Spaß-Gate (Blueprint Phase 2, AP 2.2).** Externer Test mit **≥10 Testern**. Kill-Kriterien VORAB fix: ≥6/10 starten unaufgefordert einen zweiten Run; ≥7/10 erklären den Varroa-Mechanismus in einem Satz. Ausgang als ADR-0002 (Go/Rework/Kill). Ich bereite Debug-Build, Testerbogen und Kriterien vor — durchführen kannst nur du.
+- 🔴 **Spaß-Gate (Blueprint Phase 2, AP 2.2) — VORBEREITET, wartet auf dich.** Externer Test mit **≥10 Testern**. Alles Nötige liegt bereit:
+  - Greybox spielbar (`ui/Greybox.tscn`, `main_scene` gesetzt; roher Sammlerin-Satz + Akt-1-Bedrohung).
+  - **Debug-Build-Anleitung:** `docs/gate/debug-build-anleitung.md` (Desktop-F5 oder Android-Debug-APK).
+  - **Testerbogen:** `docs/gate/testerbogen.md` · **Kill-Kriterien (vorab fix):** `docs/gate/kill-kriterien.md`.
+  - **Dein Schritt:** ≥10 Tester, dann Kriterien auswerten und **ADR-0002 (Go/Rework/Kill)** anlegen. Kill ist ein Erfolg des Systems.
 - 🔴 **Balancing-Beta (AP 8.2).** 20–30 Tester über Play-Testtrack, 3–4 Kalenderwochen. Kriterien: menschliche Winrate Stufe 0 im Korridor 25–45 %; ≥50 % spielen ≥5 Runs; Varroa von ≥8/10 als „fordernd, aber fair"; 0 bekannte Crashes.
 
 ## Echtgeräte (Serien-Handbuch §4, AP 8.1)

@@ -1,0 +1,19 @@
+{
+  "id": "stich_abwehr",
+  "name_key": "card.stich_abwehr.name",
+  "text_key": "card.stich_abwehr.text",
+  "kompendium_key": "card.stich_abwehr.fact",
+  "type": "aktion",
+  "cost": 1,
+  "rarity": "common",
+  "archetype": "neutral",
+  "act": 1,
+  "effects": [
+    { "op": "deal_damage", "value": 6, "target": "threat" }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "deal_damage", "value": 9, "target": "threat" }
+    ]
+  }
+}

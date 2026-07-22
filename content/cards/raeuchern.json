@@ -1,0 +1,19 @@
+{
+  "id": "raeuchern",
+  "name_key": "card.raeuchern.name",
+  "text_key": "card.raeuchern.text",
+  "kompendium_key": "card.raeuchern.fact",
+  "type": "aktion",
+  "cost": 1,
+  "rarity": "common",
+  "archetype": "neutral",
+  "act": 1,
+  "effects": [
+    { "op": "reduce_varroa", "value": 4 }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "reduce_varroa", "value": 6 }
+    ]
+  }
+}

@@ -13,6 +13,7 @@ const SUITES: Array = [
 	preload("res://tests/test_turn_engine.gd"),
 	preload("res://tests/test_threat_ai.gd"),
 	preload("res://tests/test_autoplayer.gd"),
+	preload("res://tests/test_greybox_ui.gd"),
 	preload("res://tests/test_determinism.gd"),
 ]
 

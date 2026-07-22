@@ -1,21 +1,23 @@
 # NEXT — der eine nächste Schritt
 
+> ⚠️ **Prüf-Grenze (CLAUDE.md):** Das Spaß-Gate (Phase 2) ist vorbereitet, aber noch nicht von Menschen durchgeführt. Ab Phase 3 baue ich autonom weiter — Investition ab hier ist durch kein menschliches Gate geprüft (siehe `MENSCH-TODO.md`, ADR-0002 offen).
+
 ## Jetzt
 
-**Phase 2 — SPASS-GATE vorbereiten (AP 2.1/2.2).** Das ist ein **Mensch-Gate**: den Go/Rework/Kill-Entscheid mit ≥10 Testern kann nur der Mensch fällen (ADR-0002 folgt daraus). Meine Aufgabe: alles so vorbereiten, dass der Test sofort durchführbar ist.
+**Phase 3, AP 3.1 — Pfadkarte & Akt-Fluss (headless).**
 
-Konkrete nächste Schritte (klein schneiden):
-1. **Greybox-Minimal-UI** über den Kern (erste `ui/`-Node-Schicht, „null Schönheit, volle Funktion"): Kartenhand als Rechtecke+Text, Tap zum Spielen, Zustandsanzeigen (Volksstärke/Vorräte/Varroa/Energie/Wächterinnen), Intent-Icon, Zug-Ende-Button. UI ruft nur den Kern auf (kein Regelcode in der UI).
-2. **Akt-1-Greybox spielbar** machen (Sammlerin-Startdeck + 1–2 Begegnungen aus vorhandenem Content).
-3. **Testermaterialien** als Dateien: `docs/gate/testerbogen.md` (Fragen: „Noch einen Run gestartet? Spannendste Entscheidung? Was verwirrend?") und `docs/gate/kill-kriterien.md` (VORAB fix: ≥6/10 starten unaufgefordert 2. Run; ≥7/10 erklären Varroa in einem Satz).
-4. **Eintrag in `MENSCH-TODO.md`** samt Debug-Build-Anleitung.
+Konkret (Blueprint AP 3.1):
+1. **Knoten-Graph-Generator (seeded, Strom `map`):** pro Akt ~12 Knoten in 5–6 Reihen; Typen-Mix regelgesteuert (Begegnung / Ereignis / Standortwechsel / „Imkerbesuch"=Tausch); Regeln: nie 2 Bosse hintereinander, Tausch-Knoten je Akt garantiert.
+2. **Akt-Übergänge** + Akt-Bosse als besondere Begegnungen + **Einwinterungs-Bewertung** (Schwellen aus JSON → Bronze/Silber/Gold).
+3. **Jahreszeiten-Färbung** als Datenfeld je Akt (billige Atmosphäre; UI erst später).
 
-**DoD (was ich liefern kann):** Greybox startet, ein Akt ist tap-spielbar; Testerbogen + Kill-Kriterien liegen als Dateien; Gate in MENSCH-TODO verankert.
+**DoD:** kompletter Run Akt 1–3 + Einwinterungs-Bewertung mit Platzhalter-Content headless durchspielbar; Tests grün in CI.
 
-**Wichtig (CLAUDE.md):** Nach diesem Gate in `FORTSCHRITT.md` markieren: „Ab hier ist Investition durch kein menschliches Gate geprüft." Ich darf danach autonom weiterbauen (Phase 3), aber ehrlich gekennzeichnet.
+**Stolperfalle (Blueprint):** Map-Generator überkomplex — v1 simpel halten (Regeln nachschärfen geht immer).
 
 ## Danach
 
-- Phase 3 (Run-Struktur): Pfadkarte/Knoten-Graph, Akt-Übergänge, Ereignisse/Tausch/Relikte im Run, Meta-Save + Freischaltbaum, Replay-Export — und das **Anwenden** der Belohnungswahl aufs Run-Deck.
+- AP 3.2: Ereignis-System, „Imkerbesuch"-Tausch (Karten entfernen = Deck-Hygiene!), Relikte im Run.
+- AP 3.3: atomares Meta-Save (`schemaVersion`, Temp+Rename), Freischaltbaum, Replay-Export — **und** das Anwenden der Belohnungswahl (`reward_choices`) aufs Run-Deck.
 
-> Godot lokal nicht ausführbar → CI ist die Verifikation. Vor jedem Push: `gdlint`/`gdformat`/`validate_content.py` grün. UI-Verhalten ist headless schwerer testbar — Kernlogik bleibt in `core/` (getestet), die UI dünn halten.
+> Godot lokal nicht ausführbar → CI ist die Verifikation. Vor jedem Push: `gdlint`/`gdformat`/`validate_content.py` grün. Logik in `core/` (getestet), UI dünn.

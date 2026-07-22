@@ -1,0 +1,21 @@
+{
+  "id": "schwaenzeltanz",
+  "name_key": "card.schwaenzeltanz.name",
+  "text_key": "card.schwaenzeltanz.text",
+  "kompendium_key": "card.schwaenzeltanz.fact",
+  "type": "aktion",
+  "cost": 1,
+  "rarity": "uncommon",
+  "archetype": "sammlerin",
+  "act": 1,
+  "effects": [
+    { "op": "draw", "value": 2 },
+    { "op": "apply_status", "value": 1, "target": "colony", "status": "sammeltrieb" }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "draw", "value": 2 },
+      { "op": "apply_status", "value": 2, "target": "colony", "status": "sammeltrieb" }
+    ]
+  }
+}

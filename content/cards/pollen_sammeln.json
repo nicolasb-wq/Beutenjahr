@@ -1,0 +1,21 @@
+{
+  "id": "pollen_sammeln",
+  "name_key": "card.pollen_sammeln.name",
+  "text_key": "card.pollen_sammeln.text",
+  "kompendium_key": "card.pollen_sammeln.fact",
+  "type": "aktion",
+  "cost": 1,
+  "rarity": "common",
+  "archetype": "sammlerin",
+  "act": 1,
+  "effects": [
+    { "op": "gain_stores", "value": 4 },
+    { "op": "draw", "value": 1 }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "gain_stores", "value": 6 },
+      { "op": "draw", "value": 1 }
+    ]
+  }
+}

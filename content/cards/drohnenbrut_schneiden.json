@@ -1,0 +1,21 @@
+{
+  "id": "drohnenbrut_schneiden",
+  "name_key": "card.drohnenbrut_schneiden.name",
+  "text_key": "card.drohnenbrut_schneiden.text",
+  "kompendium_key": "card.drohnenbrut_schneiden.fact",
+  "type": "aktion",
+  "cost": 1,
+  "rarity": "uncommon",
+  "archetype": "sammlerin",
+  "act": 1,
+  "effects": [
+    { "op": "reduce_varroa", "value": 3 },
+    { "op": "deal_damage", "value": 2, "target": "colony" }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "reduce_varroa", "value": 4 },
+      { "op": "deal_damage", "value": 1, "target": "colony" }
+    ]
+  }
+}

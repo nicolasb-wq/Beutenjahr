@@ -1,0 +1,19 @@
+{
+  "id": "auffuettern",
+  "name_key": "card.auffuettern.name",
+  "text_key": "card.auffuettern.text",
+  "kompendium_key": "card.auffuettern.fact",
+  "type": "aktion",
+  "cost": 1,
+  "rarity": "common",
+  "archetype": "sammlerin",
+  "act": 1,
+  "effects": [
+    { "op": "heal", "value": 5, "target": "colony" }
+  ],
+  "upgrade": {
+    "effects": [
+      { "op": "heal", "value": 8, "target": "colony" }
+    ]
+  }
+}
