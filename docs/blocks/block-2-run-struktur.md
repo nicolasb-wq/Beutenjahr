@@ -1,6 +1,6 @@
 # Block 2 — Phase 3: Run-Struktur (Akzeptanzkriterien)
 
-- **Datum:** 2026-09-07 · **Status:** in Arbeit
+- **Datum:** 2026-09-07 · **Status:** ✅ abgeschlossen (CI grün, Commit 1220099, 83 Tests)
 - **LOOP-Bezug:** Block 2 → **STOPP 1** (Prüffrage: „Trägt der Kern-Loop über einen ganzen Run?").
 - **Blueprint:** Phase 3 (AP 3.1 Pfadkarte/Akt-Fluss/Einwinterung, AP 3.2 Ereignisse/Tausch/Relikte, AP 3.3 Meta-Save/Freischaltbaum/Replay).
 
@@ -33,5 +33,18 @@ liegen in `content/config/run.json`.
 ## Lauffähiges Ergebnis
 Ein **spielbarer Build eines ganzen Runs** (Akt 1 bis Einwinterung) → **STOPP 1**: Nico spielt, prüft „Trägt der Kern-Loop?".
 
-## Abnahme
-Jedes Kriterium am Blockende einzeln abgehakt (CI-Log + Dateiverweise). Fehlschlag → max. 5 Nachbesserungsrunden (LOOP §2).
+## Abnahme (abgehakt, 2026-09-07)
+
+- [x] **K1** — `core/run_map.gd` seeded; `test_run_map`: Determinismus, Boss letzte Reihe, ≥1 Shop/Akt, Reihenzahl, verschiedene Akt-Bosse.
+- [x] **K2** — `core/run_controller.gd` spielt 3 Akte über den Graphen; `test_run.test_full_run_finishes` + `test_run_deterministic`. `ColonyState` persistiert.
+- [x] **K3** — `RunController.evaluate_wintering`; `test_run.test_wintering_thresholds` (gold/silber/bronze/kein + Varroa-Kipp).
+- [x] **K4** — Belohnung ins Deck; `test_run.test_reward_grows_deck`.
+- [x] **K5** — Ereignisse (`choose_event_option`) + Imkerbesuch; `test_shop` (entfernen/kaufen/Relikt).
+- [x] **K6** — `core/save_service.gd` atomar (Temp+Rename), `schemaVersion`; `test_save` (Datei-Roundtrip, keine .tmp-Leiche).
+- [x] **K7** — Replay `from_save` (Seed+Aktionen); `test_save.test_replay_bitidentical`.
+- [x] **K8** — `ui/Greybox.gd` spielt einen ganzen Run (lokalisiert); `test_greybox_ui.test_greybox_full_run_smoke` + Sprachwechsel.
+- [x] **K9** — CI beide Jobs grün, **ALLE 83 TESTS GRUEN** (Run 1220099).
+
+0/5 Nachbesserungsrunden. **Blueprint-Abweichung:** Standortwechsel-Knoten später (ADR-0005).
+
+**Lauffähiges Ergebnis:** ein ganzer Run (Akt 1→3 + Einwinterung) ist spielbar → **STOPP 1** (`docs/stops/stopp-1.md`).

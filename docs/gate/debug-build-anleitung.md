@@ -7,7 +7,7 @@ Ziel: die Greybox auf ein Gerät bringen, das der Tester bedienen kann. Zwei Weg
 ## Weg A — Desktop (schnellster Test)
 1. Godot öffnen → Projekt importieren (`project.godot`).
 2. **F5** (Projekt starten). Die Greybox läuft im Fenster.
-3. Bedienung: Karten-Buttons = Karte spielen · „Zug beenden" · „Neuer Run". Zustandsleiste oben zeigt Stärke/Vorrat/Varroa (+Druck)/Energie/Wächter/Zug.
+3. Bedienung: Die Greybox spielt seit Block 2 einen **ganzen Run** (3 Akte + Einwinterung). Oben: Akt/Jahreszeit, Volk-Zeile, „Sprache wechseln"/„Neuer Run". Darunter die Phase: Pfadwahl (Knoten-Buttons) · Begegnung (Karten spielen, „Zug beenden") · Ereignis/Imkerbesuch/Belohnung (Options-Buttons) · Ende (Einwinterungs-Stufe/Kollaps).
 
 ## Weg B — Android-Debug-APK (näher am Zielgerät)
 1. Godot: **Editor → Verwalten der Export-Vorlagen** → Vorlagen für 4.5 laden.

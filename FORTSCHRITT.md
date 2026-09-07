@@ -41,6 +41,25 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 
 ---
 
+## 2026-09-07 — BLOCK 2 (Phase 3: Run-Struktur) ✅ CI-verifiziert → **STOPP 1**
+
+**Was gebaut wurde**
+- **Ganzer Run spielbar:** seeded **Pfadkarte** (`run_map.gd`, Knoten Begegnung/Ereignis/Imkerbesuch/Boss), 3 Akte, **persistenter `ColonyState`** über Begegnungen, **Einwinterungs-Bewertung** (kein/Bronze/Silber/Gold aus `run.json`).
+- **`RunController`** als einziger Eingabe-Trichter (Aktions-Log) → **Save = Seed + Aktionen**, **Replay bitidentisch**; atomares Save (`save_service.gd`, `schemaVersion`).
+- **Imkerbesuch** (kaufen/entfernen/Relikt), **Ereignisse** (Optionen → persistente Effekte), **Belohnung** 1-aus-3 ins Deck.
+- **Greybox spielt den ganzen Run** (alle Phasen, lokalisiert, DE/EN-Umschalter).
+- **CI: beide Jobs grün, ALLE 83 TESTS GRUEN** (Run 1220099).
+
+**Akzeptanzkriterien:** K1–K9 abgehakt (`docs/blocks/block-2-run-struktur.md`), 0/5 Nachbesserungsrunden.
+
+**Abweichungen vom Blueprint:** Standortwechsel-Knoten auf später verschoben (**ADR-0005**) — hängt an den Akt-Varianten, die der Blueprint selbst als „Später" führt.
+
+**Was ungeprüft blieb (ehrliche Grenze):** Balance ist **grob** (voller Content + Zahlen = Block 3); Optik ist **Greybox** (echte UI = Block 4); die visuelle Darstellung ist bis zu deinem Debug-Build durch nichts geprüft (CI prüft Logik + Off-tree-Full-Run-Smoke). Spaß-Gate weiter offen.
+
+**→ STOPP 1 (LOOP §4):** Du spielst einen Debug-Build. Materialien: **`docs/stops/stopp-1.md`** (Kurzbericht, Build-Anleitung, konkrete Fragen). **Block 3 wird NICHT automatisch gezogen** — er hängt von deinem Urteil „trägt der Kern-Loop?" ab.
+
+---
+
 ## 2026-09-07 — LOOP-Modus aktiv · BLOCK 1 (Lokalisierung) ✅ CI-verifiziert
 
 Ab jetzt gilt `LOOP.md` (großer-Block-Modus, drei Stopps, Kriterien-zuerst).

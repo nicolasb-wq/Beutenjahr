@@ -1,23 +1,19 @@
 # NEXT — der eine nächste Schritt
 
-> ⚠️ **Prüf-Grenze (CLAUDE.md):** Das Spaß-Gate (Phase 2) ist vorbereitet, aber noch nicht von Menschen durchgeführt. Ab Phase 3 baue ich autonom weiter — Investition ab hier ist durch kein menschliches Gate geprüft (siehe `MENSCH-TODO.md`, ADR-0002 offen).
+## Jetzt: **STOPP 1** (LOOP §4) — Nico spielt
 
-## Jetzt
+Block 2 (Run-Struktur) ist abgeschlossen, CI grün (83 Tests). Ein **ganzer Run** ist spielbar.
+**Nico spielt einen Debug-Build** und beantwortet die Prüffrage: *Trägt der Kern-Loop über einen ganzen Run?*
 
-**Phase 3, AP 3.1 — Pfadkarte & Akt-Fluss (headless).**
+→ Materialien: **`docs/stops/stopp-1.md`** (Kurzbericht, Build-Anleitung, konkrete Fragen).
 
-Konkret (Blueprint AP 3.1):
-1. **Knoten-Graph-Generator (seeded, Strom `map`):** pro Akt ~12 Knoten in 5–6 Reihen; Typen-Mix regelgesteuert (Begegnung / Ereignis / Standortwechsel / „Imkerbesuch"=Tausch); Regeln: nie 2 Bosse hintereinander, Tausch-Knoten je Akt garantiert.
-2. **Akt-Übergänge** + Akt-Bosse als besondere Begegnungen + **Einwinterungs-Bewertung** (Schwellen aus JSON → Bronze/Silber/Gold).
-3. **Jahreszeiten-Färbung** als Datenfeld je Akt (billige Atmosphäre; UI erst später).
+**Block 3 wird bewusst NICHT automatisch gezogen** (LOOP: an einem Stopp hält der Loop für Feedback; er darf nur an feedback-**unabhängigen** Teilen weiterarbeiten — Tests, Doku, Tooling, Refactorings).
 
-**DoD:** kompletter Run Akt 1–3 + Einwinterungs-Bewertung mit Platzhalter-Content headless durchspielbar; Tests grün in CI.
+## Feedback-unabhängige Arbeit während des Stopps (erlaubt)
+- Test-/Tooling-Verbesserungen, Doku, kleine Refactorings am Kern.
+- **Nicht** anfangen: voller Kartensatz / Zahlenbalance (Block 3) und echte UI/Art (Block 4) — beide würden sich durch Nicos Feedback ändern.
 
-**Stolperfalle (Blueprint):** Map-Generator überkomplex — v1 simpel halten (Regeln nachschärfen geht immer).
+## Danach (nach Nicos Go am Stopp)
+- **Block 3 — Phase 4: Balancing & Vollcontent** (voller Kartensatz, Bedrohungen aller Akte, Zahlenbalance, Varroa-Kurve über den ganzen Run). Kriterien zuerst in `docs/blocks/block-3-*.md`.
 
-## Danach
-
-- AP 3.2: Ereignis-System, „Imkerbesuch"-Tausch (Karten entfernen = Deck-Hygiene!), Relikte im Run.
-- AP 3.3: atomares Meta-Save (`schemaVersion`, Temp+Rename), Freischaltbaum, Replay-Export — **und** das Anwenden der Belohnungswahl (`reward_choices`) aufs Run-Deck.
-
-> Godot lokal nicht ausführbar → CI ist die Verifikation. Vor jedem Push: `gdlint`/`gdformat`/`validate_content.py` grün. Logik in `core/` (getestet), UI dünn.
+> Godot lokal nicht ausführbar → CI ist die Verifikation. Vor jedem Push: `gdlint`/`gdformat`/`validate_content.py`/`validate_i18n.py` + Variant-Wächter grün.
