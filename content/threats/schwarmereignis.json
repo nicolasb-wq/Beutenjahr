@@ -7,9 +7,9 @@
   "is_boss": true,
   "escalation": { "type": "per_turn", "value": 1 },
   "intents": [
-    { "id": "abschwaermen", "weight": 3, "min_turn": 1,
+    { "id": "abschwaermen", "name_key": "threat.schwarmereignis.intent.abschwaermen", "weight": 3, "min_turn": 1,
       "effects": [ { "op": "deal_damage", "value": 8, "target": "colony" } ] },
-    { "id": "schwarmzelle", "weight": 2, "min_turn": 3,
+    { "id": "schwarmzelle", "name_key": "threat.schwarmereignis.intent.schwarmzelle", "weight": 2, "min_turn": 3,
       "effects": [ { "op": "add_varroa", "value": 3, "target": "colony" } ] }
   ]
 }

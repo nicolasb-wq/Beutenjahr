@@ -60,6 +60,9 @@ jobs:
       - name: Content-JSON validieren
         run: python3 tools/validate_content.py
 
+      - name: Lokalisierung validieren (DE/EN Paritaet + referenzierte Keys)
+        run: python3 tools/validate_i18n.py
+
   godot:
     name: Godot headless
     runs-on: ubuntu-latest

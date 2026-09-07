@@ -30,6 +30,7 @@
         "required": ["id", "weight", "effects"],
         "properties": {
           "id": { "$ref": "defs.schema.json#/$defs/id" },
+          "name_key": { "$ref": "defs.schema.json#/$defs/key" },
           "weight": { "type": "integer", "minimum": 1 },
           "min_turn": { "type": "integer", "minimum": 1 },
           "phase": { "type": "integer", "minimum": 1 },

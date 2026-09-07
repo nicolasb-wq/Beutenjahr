@@ -155,6 +155,7 @@ Berechnung: `effektiver_value = value + floor(metric * factor)`.
 }
 ```
 - `intents`: gewichtete Tabelle (seeded gewählt). `min_turn`/`phase` steuern Eskalation (z. B. Wespen ab Runde 4 aggressiver). Intent-Effekte zielen i. d. R. auf `colony`.
+- Jeder Intent trägt optional einen Anzeige-`name_key` (Lokalisierung, Block 1); fehlt er, zeigt die UI die `id`.
 
 ### 4.3 Ereignis (`content/events/<id>.json`)
 ```json

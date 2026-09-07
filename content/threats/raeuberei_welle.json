@@ -7,9 +7,9 @@
   "is_boss": true,
   "escalation": { "type": "per_phase", "value": 3 },
   "intents": [
-    { "id": "pluendern", "weight": 3, "min_turn": 1,
+    { "id": "pluendern", "name_key": "threat.raeuberei_welle.intent.pluendern", "weight": 3, "min_turn": 1,
       "effects": [ { "op": "spend_stores", "value": 4, "target": "colony" } ] },
-    { "id": "uebermacht", "weight": 2, "min_turn": 4, "phase": 2,
+    { "id": "uebermacht", "name_key": "threat.raeuberei_welle.intent.uebermacht", "weight": 2, "min_turn": 4, "phase": 2,
       "effects": [ { "op": "deal_damage", "value": 10, "target": "colony" } ] }
   ]
 }

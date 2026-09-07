@@ -7,6 +7,7 @@ extends SceneTree
 ## (verhindert Idle-Hang, falls quit() im _initialize nicht sofort greift).
 
 const SUITES: Array = [
+	preload("res://tests/test_loc.gd"),
 	preload("res://tests/test_rng.gd"),
 	preload("res://tests/test_interpreter.gd"),
 	preload("res://tests/test_interpreter_ops.gd"),

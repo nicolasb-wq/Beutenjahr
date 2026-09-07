@@ -1,10 +1,8 @@
 extends Control
 ## Greybox-Minimal-UI fuer das SPASS-GATE (Blueprint AP 2.2): "null Schoenheit,
-## volle Funktion". Die UI ist reiner Konsument des headless Kerns (core/) —
-## keine Spielregeln hier, nur Anzeige + Eingabe.
-##
-## Bewusst programmatisch aufgebaut (keine handgepflegte .tscn-Knotenwand).
-## Die finale, gestaltete UI entsteht in Phase 5.
+## volle Funktion". Reiner Konsument des headless Kerns (core/) — keine
+## Spielregeln hier, nur Anzeige + Eingabe. Alle Texte ueber Loc (Block 1):
+## kein hartkodierter Anzeigetext. Die finale, gestaltete UI entsteht in Phase 5.
 
 const START_DECK: Array = [
 	"pollen_sammeln",
@@ -25,6 +23,8 @@ var _run: RunState
 var _engine: TurnEngine
 var _run_counter: int = 0
 
+var _title_label: Label
+var _hand_title_label: Label
 var _threat_label: Label
 var _intent_label: Label
 var _state_label: Label
@@ -32,11 +32,14 @@ var _result_label: Label
 var _log_label: Label
 var _hand_box: HBoxContainer
 var _end_button: Button
+var _new_run_button: Button
+var _lang_button: Button
 
 
 func _ready() -> void:
 	_content = ContentDB.new()
 	_content.load_all()
+	Loc.set_locale(Loc.DEFAULT_LOCALE)
 	_build_ui()
 	_new_encounter()
 
@@ -47,27 +50,24 @@ func _build_ui() -> void:
 	vbox.add_theme_constant_override("separation", 12)
 	add_child(vbox)
 
-	var title := Label.new()
-	title.text = "Beutenjahr — Greybox (Akt 1)"
-	vbox.add_child(title)
-
+	_title_label = _mk_label(vbox)
 	_threat_label = _mk_label(vbox)
 	_intent_label = _mk_label(vbox)
 	_state_label = _mk_label(vbox)
 
-	var restart := Button.new()
-	restart.text = "Neuer Run"
-	restart.pressed.connect(_new_encounter)
-	vbox.add_child(restart)
+	_lang_button = Button.new()
+	_lang_button.pressed.connect(_on_switch_lang)
+	vbox.add_child(_lang_button)
+
+	_new_run_button = Button.new()
+	_new_run_button.pressed.connect(_new_encounter)
+	vbox.add_child(_new_run_button)
 
 	_end_button = Button.new()
-	_end_button.text = "Zug beenden"
 	_end_button.pressed.connect(_on_end_turn)
 	vbox.add_child(_end_button)
 
-	var hand_title := Label.new()
-	hand_title.text = "Hand (antippen zum Spielen):"
-	vbox.add_child(hand_title)
+	_hand_title_label = _mk_label(vbox)
 
 	_hand_box = HBoxContainer.new()
 	_hand_box.add_theme_constant_override("separation", 8)
@@ -76,12 +76,27 @@ func _build_ui() -> void:
 	_result_label = _mk_label(vbox)
 	_log_label = _mk_label(vbox)
 	_log_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_apply_chrome_texts()
 
 
 func _mk_label(parent: Node) -> Label:
 	var lbl := Label.new()
 	parent.add_child(lbl)
 	return lbl
+
+
+func _apply_chrome_texts() -> void:
+	_title_label.text = Loc.t("ui.greybox.title")
+	_hand_title_label.text = Loc.t("ui.greybox.hand")
+	_lang_button.text = Loc.t("ui.greybox.switch_lang")
+	_new_run_button.text = Loc.t("ui.greybox.new_run")
+	_end_button.text = Loc.t("ui.greybox.end_turn")
+
+
+func _on_switch_lang() -> void:
+	Loc.set_locale("en" if Loc.get_locale() == "de" else "de")
+	_apply_chrome_texts()
+	_refresh()
 
 
 func _new_encounter() -> void:
@@ -112,29 +127,68 @@ func _on_end_turn() -> void:
 func _refresh() -> void:
 	var enc := _engine.enc
 	var threat := enc.threat
-	_threat_label.text = "Bedrohung: %s   HP %d/%d" % [threat.id, threat.hp, threat.max_hp]
-	_intent_label.text = "Kuendigt an: %s" % String(threat.current_intent.get("id", "-"))
-	var pressure := Balance.varroa_pressure(enc.varroa)
-	_state_label.text = (
-		"Staerke %d | Vorrat %d | Varroa %d (Druck %d) | Energie %d/%d | Waechter %d | Zug %d"
-		% [
-			enc.strength,
-			enc.stores,
-			enc.varroa,
-			pressure,
-			enc.energy,
-			enc.max_energy,
-			enc.guards,
-			enc.turn_number,
-		]
+	var threat_name := Loc.t(String(threat.def.get("name_key", threat.id)))
+	_threat_label.text = (
+		(Loc.t("ui.greybox.threat") % threat_name)
+		+ "   "
+		+ (Loc.t("ui.greybox.hp") % [threat.hp, threat.max_hp])
 	)
+	_intent_label.text = Loc.t("ui.greybox.intent") % _intent_name(threat)
+	_state_label.text = _state_line(enc)
 	_rebuild_hand()
 	_end_button.disabled = _engine.is_over()
 	if _engine.is_over():
-		_result_label.text = "Ergebnis: %s    Belohnung: %s" % [enc.result, str(enc.reward_choices)]
+		_result_label.text = (
+			(Loc.t("ui.greybox.result") % _result_text(enc.result))
+			+ "    "
+			+ (Loc.t("ui.greybox.reward") % str(enc.reward_choices))
+		)
 	else:
 		_result_label.text = ""
 	_log_label.text = _tail_log()
+
+
+func _result_text(result: String) -> String:
+	match result:
+		"won":
+			return Loc.t("ui.result.won")
+		"lost":
+			return Loc.t("ui.result.lost")
+		"fled":
+			return Loc.t("ui.result.fled")
+		_:
+			return Loc.t("ui.result.open")
+
+
+func _intent_name(threat: ThreatState) -> String:
+	var intent := threat.current_intent
+	if intent.is_empty():
+		return "-"
+	return Loc.t(String(intent.get("name_key", intent.get("id", "-"))))
+
+
+func _state_line(enc: EncounterState) -> String:
+	var pressure := Balance.varroa_pressure(enc.varroa)
+	return (
+		"%s %d | %s %d | %s %d (%s %d) | %s %d/%d | %s %d | %s %d"
+		% [
+			Loc.t("ui.state.strength"),
+			enc.strength,
+			Loc.t("ui.state.stores"),
+			enc.stores,
+			Loc.t("ui.state.varroa"),
+			enc.varroa,
+			Loc.t("ui.state.pressure"),
+			pressure,
+			Loc.t("ui.state.energy"),
+			enc.energy,
+			enc.max_energy,
+			Loc.t("ui.state.guards"),
+			enc.guards,
+			Loc.t("ui.state.turn"),
+			enc.turn_number,
+		]
+	)
 
 
 func _rebuild_hand() -> void:
@@ -143,9 +197,10 @@ func _rebuild_hand() -> void:
 	for i in _engine.enc.hand.size():
 		var card: Dictionary = _engine.enc.hand[i]
 		var def: Dictionary = _content.cards.get(String(card.get("id", "")), {})
+		var name_key := String(def.get("name_key", ""))
+		var cname := Loc.t(name_key) if name_key != "" else String(card.get("id", "?"))
 		var btn := Button.new()
-		var cost := CardLib.cost(def, bool(card.get("upgraded", false)))
-		btn.text = "%s (%d)" % [String(card.get("id", "?")), cost]
+		btn.text = "%s (%d)" % [cname, CardLib.cost(def, bool(card.get("upgraded", false)))]
 		btn.disabled = _engine.is_over() or not _engine.can_play(i)
 		btn.pressed.connect(_on_play.bind(i))
 		_hand_box.add_child(btn)

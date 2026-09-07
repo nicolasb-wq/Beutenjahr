@@ -7,9 +7,9 @@
   "is_boss": false,
   "escalation": { "type": "none", "value": 0 },
   "intents": [
-    { "id": "stich", "weight": 3, "min_turn": 1,
+    { "id": "stich", "name_key": "threat.wespe_einzeln.intent.stich", "weight": 3, "min_turn": 1,
       "effects": [ { "op": "deal_damage", "value": 5, "target": "colony" } ] },
-    { "id": "umkreisen", "weight": 1, "min_turn": 1,
+    { "id": "umkreisen", "name_key": "threat.wespe_einzeln.intent.umkreisen", "weight": 1, "min_turn": 1,
       "effects": [ { "op": "add_varroa", "value": 1, "target": "colony" } ] }
   ]
 }
