@@ -44,6 +44,27 @@ static func create(deck: Array, threat_state: ThreatState) -> EncounterState:
 	return e
 
 
+## Begegnung aus dem persistenten Volkszustand (Block 2): Volksstaerke/Vorraete/
+## Varroa/max_energy/Deck stammen vom Volk.
+static func from_colony(colony: ColonyState, threat_state: ThreatState) -> EncounterState:
+	var e := EncounterState.new()
+	e.strength = colony.strength
+	e.stores = colony.stores
+	e.varroa = colony.varroa
+	e.max_energy = colony.max_energy
+	e.energy = colony.max_energy
+	e.threat = threat_state
+	e.draw_pile = colony.deck.duplicate(true)
+	return e
+
+
+## Schreibt persistente Ressourcen zurueck ins Volk (nach Begegnungsende).
+func write_back(colony: ColonyState) -> void:
+	colony.strength = strength
+	colony.stores = stores
+	colony.varroa = varroa
+
+
 func has_status(name: String) -> bool:
 	return int(statuses.get(name, 0)) > 0
 

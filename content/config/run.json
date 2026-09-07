@@ -1,0 +1,32 @@
+{
+  "acts": 3,
+  "nodes_per_act": 12,
+  "rows_per_act": 6,
+  "act_seasons": ["fruehjahr", "fruehsommer", "spaetsommer"],
+  "act_threats": {
+    "1": ["wespe_einzeln"],
+    "2": ["wespe_einzeln", "schwarmereignis"],
+    "3": ["wespe_einzeln", "raeuberei_welle"]
+  },
+  "act_bosses": {
+    "1": "wespe_einzeln",
+    "2": "schwarmereignis",
+    "3": "varroa_kollaps"
+  },
+  "wintering": {
+    "gold":   { "strength": 30, "stores": 25, "varroa_max": 8 },
+    "silber": { "strength": 20, "stores": 15, "varroa_max": 14 },
+    "bronze": { "strength": 10, "stores": 5,  "varroa_max": 22 }
+  },
+  "shop": {
+    "remove_cost": 0,
+    "card_cost": 6,
+    "card_pool": ["waechterinnen", "wehrbienen", "schwaenzeltanz", "raeuchern", "auffuettern", "drohnenbrut_schneiden"],
+    "relic_pool": ["beutenbock", "bienenflucht", "stockmeissel"]
+  },
+  "start_deck": [
+    "pollen_sammeln", "pollen_sammeln", "sammelflug", "sammelflug",
+    "stich_abwehr", "stich_abwehr", "waechterinnen", "raeuchern",
+    "schwaenzeltanz", "auffuettern"
+  ]
+}

@@ -49,3 +49,34 @@ static func play_random_legal(engine: TurnEngine, policy_seed: int, max_turns: i
 		guard += 1
 		if guard > _GUARD_LIMIT:
 			return
+
+
+## Deterministische Run-Politik (Block 2): treibt einen RunController durch einen
+## ganzen Run. Karte: immer erster Knoten; Begegnung: erste spielbare Karte, sonst
+## Zugende; Ereignis/Belohnung: Option 0; Shop: verlassen. Fuer Tests/Smoke.
+static func play_run(rc: RunController, max_steps: int = 5000) -> void:
+	var guard := 0
+	while not rc.is_finished() and guard < max_steps:
+		guard += 1
+		match rc.phase:
+			"map":
+				if rc.available_nodes().is_empty():
+					return
+				rc.choose_node(0)
+			"encounter":
+				var progress := false
+				for i in rc.engine.enc.hand.size():
+					if rc.engine.can_play(i):
+						rc.play_card(i)
+						progress = true
+						break
+				if not progress and rc.phase == "encounter":
+					rc.end_turn()
+			"event":
+				rc.choose_event_option(0)
+			"shop":
+				rc.shop_leave()
+			"reward":
+				rc.choose_reward(0)
+			_:
+				return
