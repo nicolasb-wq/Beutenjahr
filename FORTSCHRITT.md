@@ -41,6 +41,29 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 
 ---
 
+## 2026-09-07 — LOOP-Modus aktiv · BLOCK 1 (Lokalisierung) ✅ CI-verifiziert
+
+Ab jetzt gilt `LOOP.md` (großer-Block-Modus, drei Stopps, Kriterien-zuerst).
+
+**Was gebaut wurde**
+- i18n-Service `core/loc.gd` (statisch/headless): `assets/i18n/{de,en}.json`, `t()/set_locale()/get_locale()/has_key()`, Fallback, TranslationServer-Registrierung.
+- **DE + EN vollständig** (79 Keys, paritätisch): UI-Chrome, Karten-Namen/-Texte, Bedrohungs-Namen/-Texte, **Intent-Anzeigenamen** (neues optionales `name_key` im Threat-Schema), Ereignisse, Relikte.
+- **Greybox komplett lokalisiert** + **Live-DE/EN-Umschalter**; kein hartkodierter Anzeigetext mehr.
+- **Maschinelle Vollständigkeitsprüfung** `tools/validate_i18n.py` (Parität, Leerwerte, alle in Content+UI referenzierten Keys) → in CI eingehängt; Negativtest bestätigt Greifen.
+- Tests: `test_loc` (6), `test_greybox_language_switch`. **ALLE 67 TESTS GRUEN.**
+
+**Akzeptanzkriterien:** K1–K7 alle abgehakt (`docs/blocks/block-1-lokalisierung.md`), 0/5 Nachbesserungsrunden.
+
+**Abweichungen vom Blueprint:** keine — DE/EN ist in Serien-Handbuch §1.7 und Blueprint AP 5.2 vorgesehen.
+
+**Ungeprüft geblieben (ehrliche Grenze):** die visuelle **Darstellung** der Greybox (Godot lokal nicht ausführbar) — CI prüft Parse + Off-tree-Verhalten + Sprachwechsel-Logik, aber nicht das Aussehen; das bleibt Nicos Debug-Build (Spaß-Gate). `kompendium_key` und `core/GameLog`-Zeilen bewusst nicht lokalisiert (dokumentierte Scope-Grenze).
+
+**Regel ab jetzt:** kein neuer Text ohne Key in beiden Sprachen (CI erzwingt es).
+
+**Nächster Block (automatisch gezogen): Block 2 — Phase 3 Run-Struktur → danach STOPP 1.**
+
+---
+
 ## 2026-07-21 — Phase 2 (SPASS-GATE) vorbereitet ✅
 
 ### Erledigt (was ich liefern kann — der Gate-Entscheid bleibt Mensch)

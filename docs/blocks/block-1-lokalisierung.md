@@ -1,6 +1,6 @@
 # Block 1 — Lokalisierung (Akzeptanzkriterien)
 
-- **Datum:** 2026-09-07 · **Status:** in Arbeit
+- **Datum:** 2026-09-07 · **Status:** ✅ abgeschlossen (CI grün, Commit a158794)
 - **LOOP-Bezug:** Block 1 (Vorbedingung, vor allen Texten). Ab Blockende: **kein neuer Text ohne Key in beiden Sprachen.**
 
 ## Vorprüfung (LOOP §5 Block 1)
@@ -20,5 +20,14 @@
 - [ ] **K6 — Headless-Tests grün.** `tests/test_loc.gd`: Lookup, Locale-Wechsel, Fallback, Parität. In CI.
 - [ ] **K7 — CI grün (beide Jobs).** Lint + i18n-Validierung + Content-Validierung + Godot-Import + alle Headless-Tests.
 
-## Abnahme
-Jedes Kriterium wird am Blockende einzeln abgehakt; Nachweis = CI-Log + Dateiverweise. Fehlschlag → max. 5 Nachbesserungsrunden (LOOP §2).
+## Abnahme (abgehakt, 2026-09-07)
+
+- [x] **K1** — `core/loc.gd` (t/set_locale/get_locale/has_key, Fallback, TranslationServer). `test_loc` grün.
+- [x] **K2** — Alle player-facing Keys: Content (name/text/label), Intent-`name_key` (Schema + 4 Bedrohungen), Greybox nutzt ausschließlich `Loc.t`.
+- [x] **K3** — `assets/i18n/{de,en}.json`: 79 Keys, identische Mengen, keine Leerwerte (Validator).
+- [x] **K4** — Sprachumschalter live (`Greybox._on_switch_lang`); `test_greybox_language_switch` bestätigt Wechsel von Chrome **und** Content-Anzeige.
+- [x] **K5** — `tools/validate_i18n.py` in CI (Lint-Job, Schritt „Lokalisierung validieren"); Negativtest bestätigte Greifen (Parität/Leerwert/fehlender Key).
+- [x] **K6** — `tests/test_loc.gd` (6 Tests) grün.
+- [x] **K7** — CI beide Jobs grün, **ALLE 67 TESTS GRUEN** (Runs ca5a34a/a158794).
+
+Keine Nachbesserungsrunde nötig (0/5 verbraucht). **Blueprint-Abweichung: keine.**
