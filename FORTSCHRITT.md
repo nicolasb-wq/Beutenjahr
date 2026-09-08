@@ -4,6 +4,29 @@ Chronologisches Log. Neueste Einträge oben. Nach jeder Phase Checkliste abhaken
 
 ---
 
+## 2026-09-08 — STOPP 1 (feedback-unabhängige Arbeit)
+
+Nico spielt den Debug-Build (Prüffrage „Trägt der Kern-Loop?"). Block 3 wird
+bewusst NICHT gezogen. Der Loop arbeitet nur an nachweislich feedback-unabhängigen
+Teilen (LOOP §4): Tests/Doku/Tooling.
+
+### Erledigt
+- **Test-Härtung Signaturmechanik** — neue Suite `tests/test_varroa_pressure.gd`
+  (10 Tests). Verriegelt `Balance.varroa_pressure` an allen Schwellen **[8,14,20]**
+  inkl. der Unterseiten 7/13/19 (Off-by-One-Schutz) und Deckelung bei 3;
+  `_colony_out`-Boden-bei-Null; Milbendruck auf `deal_damage`→Bedrohung und `heal`;
+  Behandlung (`reduce_varroa`/`dampen_varroa`) wird nie gesenkt; eingehender
+  Bedrohungsschaden ignoriert die eigene Varroa.
+  **Keine Balance-Zahlen und kein Block-3-Content geändert** — reine Absicherung
+  bestehenden Verhaltens.
+- **CI: beide Jobs grün, Commit fc6049d — ALLE 93 TESTS GRUEN** (zuvor 83).
+
+### Offen / als Nächstes
+- Weiter auf Nicos Spiel-Urteil warten (`docs/stops/stopp-1.md`). Bei „Go" → Block 3
+  (Balancing & Vollcontent), Kriterien zuerst.
+
+---
+
 ## 2026-07-21 — Phase 0 gestartet (Setup & Fundament)
 
 ### Erledigt
